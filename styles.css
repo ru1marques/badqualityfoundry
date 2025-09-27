@@ -1,80 +1,189 @@
-/* ----- Reset & base ----- */
-*,*::before,*::after{box-sizing:border-box}
-html,body{margin:0;padding:0}
-/* Smooth scroll */
-html{scroll-behavior:smooth}
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,system-ui,Helvetica,Arial,sans-serif; color:#111; background:#fff}
-a{color:inherit;text-decoration:none}
+/* ================================
+   Base / Reset
+================================ */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+a { color: inherit; text-decoration: none; }
 
-/* ----- Layout helpers ----- */
+/* -------------------------------
+   Variáveis
+-------------------------------- */
 :root{
   --container: 1120px;
-  --gutter: 16px;
   --hairline: #e5e5e5;
   --muted: #8b8b8b;
-  --softbar: #f2f2f2;
-  --tiny: 10px; /* UI labels */
-  --small: 11px; /* row subtitles */
-}
-.container{max-width:var(--container);margin:0 auto;padding:0 16px}
-.row{display:grid;grid-template-columns: 160px 1fr;gap:24px;align-items:end}
-
-/* ----- Top bar & footer bar ----- */
-.softbar{background:var(--softbar);border-bottom:1px solid var(--hairline); position:sticky; top:0; z-index:10}
-.softbar .inner{display:flex;justify-content:space-between;align-items:center;height:28px}
-.softbar .brand,.softbar .shop{font-size:var(--tiny);text-transform:uppercase;letter-spacing:.06em}
-
-/* ----- Divider between specimens ----- */
-.divider{height:1px;background:var(--hairline)}
-
-/* ----- Left meta column ----- */
-.family{font-size:var(--small);color:#666;margin:0}
-.style{font-size:var(--tiny);color:var(--muted);margin:.5rem 0 0}
-
-/* ----- Specimen word ----- */
-.specimen{line-height:.9;letter-spacing:-.01em;margin:0;user-select:none}
-/* scale similar to screenshot; adjusts with viewport */
-.specimen{font-size: clamp(48px, 12vw, 140px); font-weight:600}
-
-/* row-specific weights to mimic image hierarchy */
-.thin{font-weight:300}
-.bold{font-weight:900}
-
-/* spacing between blocks */
-.block{padding:36px 0}
-
-/* Footer (large gray panel at the bottom) */
-.footer-panel{background:var(--softbar);border-top:1px solid var(--hairline)}
-.footer-panel .pad{height:140px;display:flex;align-items:center}
-.footer-meta{display:flex;justify-content:space-between;width:100%;font-size:var(--tiny);text-transform:uppercase;letter-spacing:.06em}
-
-/* Responsivo: empilha a coluna esquerda acima em telas estreitas */
-@media (max-width: 720px){
-  .row{grid-template-columns:1fr}
+  --softbar: #F3F3F3;
+  --tiny: 10px;  /* labels do UI */
+  --small: 11px; /* subtítulo da linha */
 }
 
-
-
-/* === Figma menu spec ===
-display:flex;
-width:1460px;
-height:41px;
-padding:9px 13px;
-justify-content:space-between;
-align-items:center;
-border-radius:8px;
-background:#F3F3F3;
+/* ================================
+   Fontes — Geist (local)
 ================================ */
-.softbar{background:transparent;border-bottom:0;padding:12px 0; position:sticky; top:0; z-index:10}
-.softbar .inner{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  background:#F3F3F3;
-  border-radius:8px;
-  padding:9px 13px;
-  height:41px;           /* Figma height */
-  max-width:1460px;      /* Figma width */
-  margin:0 auto;         /* center it */
+@font-face {
+  font-family: "Geist";
+  src: local("Geist Regular"), local("Geist-Regular"),
+       url("./fonts/Geist-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
 }
-.softbar .brand,.softbar .shop{font-size:var(--tiny);text-transform:uppercase;letter-spacing:.06em}
+@font-face {
+  font-family: "Geist";
+  src: local("Geist Bold"), local("Geist-Bold"),
+       url("./fonts/Geist-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Aplicação global da fonte */
+body{
+  font-family: "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI",
+               Roboto, Inter, system-ui, Helvetica, Arial, sans-serif;
+  color:#111; background:#fff;
+  font-synthesis-weight: none; /* evita “fake bold” */
+}
+
+/* ================================
+   Layout
+================================ */
+/* container padrão (mantém para header/footer) */
+.container{ margin: 0 auto; padding: 0 16px; }
+
+/* NOVO: container em largura total */
+.container--fluid{
+  max-width: none;      /* remove limite */
+  width: 100%;
+  margin: 0;
+  padding: 0 16px;      /* margem de respiro nas laterais */
+}
+
+/* ===== Hover com aumento suave de kerning para todos os links ===== */
+a {
+  transition: letter-spacing 0.25s ease, color 0.25s ease;
+}
+
+a:hover {
+  letter-spacing: 0.28em; /* ajusta a quantidade de espaço entre letras */
+}
+
+/* Hover no(s) link(s) do menu, com mais especificidade que .softbar .shop */
+.softbar .inner a {
+  transition: letter-spacing .25s ease;
+}
+
+.softbar .inner a:hover {
+  letter-spacing: 0.28em;  /* ajusta o valor ao gosto */
+}
+
+
+
+/* grelha dos blocos */
+.row{
+  display: grid;
+  grid-template-columns: minmax(140px, 200px) 1fr;
+  gap: 10rem;
+  align-items: start;
+}
+
+/* ================================
+   Top bar — Liquid Glass branco sujo
+================================ */
+.softbar{
+  position: sticky; top: 0; z-index: 20; padding: 12px 0; background: transparent;
+}
+
+.softbar .inner{
+  display:flex; justify-content:space-between; align-items:center;
+  width:100%; max-width:1460px; height:41px; padding:9px 13px; margin:0 auto;
+  border-radius:12px;
+
+  /* cor base: o “branco sujo” com transparência */
+  background: rgba(243, 243, 243, 0.68);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  backdrop-filter: blur(18px) saturate(160%);
+  border: 1px solid rgba(255,255,255,0.45);
+  position: relative; overflow: hidden;
+}
+
+/* brilho interno do vidro */
+.softbar .inner::before{
+  content:""; position:absolute; inset:-40% -20% auto -20%; height:160%; border-radius:50%;
+  background:
+    radial-gradient(120px 60px at 30% 20%, rgba(255,255,255,.55), rgba(255,255,255,0) 70%),
+    radial-gradient(200px 120px at 70% -10%, rgba(255,255,255,.25), rgba(255,255,255,0) 60%);
+  pointer-events:none; mix-blend-mode: soft-light;
+}
+.softbar .inner::after{
+  content:""; position:absolute; inset:0;
+  background:
+    radial-gradient(60px 40px at var(--x,60%) var(--y,40%), rgba(255,255,255,.18), rgba(255,255,255,0) 60%),
+    radial-gradient(120px 80px at calc(var(--x,60%) + 20%) calc(var(--y,40%) + 10%), rgba(255,255,255,.12), rgba(255,255,255,0) 70%);
+  filter: blur(2px); pointer-events:none; transition: background-position .2s ease-out;
+}
+
+/* texto do menu — CORRETO agora */
+.softbar .brand,
+.softbar .shop{
+  font-family: "Geist", sans-serif;
+  font-weight: 700;         /* usa o Geist Bold */
+  font-size: var(--tiny);   /* mantém o tamanho original */
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  line-height: 1;
+}
+
+/* fallback sem blur */
+@supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))){
+  .softbar .inner{
+    background: #F3F3F3;
+    border: 1px solid #e7e7e7;
+  }
+  .softbar .inner::before,
+  .softbar .inner::after{ display:none; }
+}
+
+/* ================================
+   Separadores / Metadados
+================================ */
+.family{ font-size: var(--small); color:#666; margin: 0; font-weight: 400; }
+.style{  font-size: var(--tiny);  color: var(--muted); margin: .5rem 0 0; }
+
+/* ================================
+   Specimen
+================================ */
+.specimen{
+  margin: 0;
+  user-select: none;
+  line-height: .9;
+  letter-spacing: -.01em;
+  font-size: clamp(48px, 12vw, 140px);
+  font-weight: 700;
+}
+.thin { font-weight: 400; }
+.bold { font-weight: 700; }
+
+.block{
+  padding: 36px 0;
+  border-top: 1px solid var(--hairline);
+}
+
+/* ================================
+   Footer
+================================ */
+.footer-panel{ background: var(--softbar); border-top: 1px solid var(--hairline); }
+.footer-panel .pad{ height: 140px; display: flex; align-items: center; }
+.footer-meta{
+  display: flex; justify-content: space-between; width: 100%;
+  font-size: var(--tiny); text-transform: uppercase; letter-spacing: .06em;
+  line-height: 1; font-weight: 700;
+}
+
+/* ================================
+   Responsivo
+================================ */
+@media (max-width: 720px){
+  .row{ grid-template-columns: 1fr; }
+}

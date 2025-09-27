@@ -30,4 +30,28 @@
       });
     });
   }
+
+  // Liquid glass: move os highlights conforme o rato / toque
+(function(){
+  var el = document.querySelector('.softbar .inner');
+  if(!el) return;
+
+  var prefersReduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(prefersReduce) return;
+
+  function move(e){
+    var rect = el.getBoundingClientRect();
+    var x = ((e.touches ? e.touches[0].clientX : e.clientX) - rect.left) / rect.width * 100;
+    var y = ((e.touches ? e.touches[0].clientY : e.clientY) - rect.top) / rect.height * 100;
+    // limita faixa para não sair “estourando”
+    x = Math.max(10, Math.min(90, x));
+    y = Math.max(10, Math.min(90, y));
+    el.style.setProperty('--x', x + '%');
+    el.style.setProperty('--y', y + '%');
+  }
+  el.addEventListener('mousemove', move, {passive:true});
+  el.addEventListener('touchmove', move, {passive:true});
+})();
+
+
 })();
