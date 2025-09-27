@@ -1,0 +1,80 @@
+/* ----- Reset & base ----- */
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;padding:0}
+/* Smooth scroll */
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,system-ui,Helvetica,Arial,sans-serif; color:#111; background:#fff}
+a{color:inherit;text-decoration:none}
+
+/* ----- Layout helpers ----- */
+:root{
+  --container: 1120px;
+  --gutter: 16px;
+  --hairline: #e5e5e5;
+  --muted: #8b8b8b;
+  --softbar: #f2f2f2;
+  --tiny: 10px; /* UI labels */
+  --small: 11px; /* row subtitles */
+}
+.container{max-width:var(--container);margin:0 auto;padding:0 16px}
+.row{display:grid;grid-template-columns: 160px 1fr;gap:24px;align-items:end}
+
+/* ----- Top bar & footer bar ----- */
+.softbar{background:var(--softbar);border-bottom:1px solid var(--hairline); position:sticky; top:0; z-index:10}
+.softbar .inner{display:flex;justify-content:space-between;align-items:center;height:28px}
+.softbar .brand,.softbar .shop{font-size:var(--tiny);text-transform:uppercase;letter-spacing:.06em}
+
+/* ----- Divider between specimens ----- */
+.divider{height:1px;background:var(--hairline)}
+
+/* ----- Left meta column ----- */
+.family{font-size:var(--small);color:#666;margin:0}
+.style{font-size:var(--tiny);color:var(--muted);margin:.5rem 0 0}
+
+/* ----- Specimen word ----- */
+.specimen{line-height:.9;letter-spacing:-.01em;margin:0;user-select:none}
+/* scale similar to screenshot; adjusts with viewport */
+.specimen{font-size: clamp(48px, 12vw, 140px); font-weight:600}
+
+/* row-specific weights to mimic image hierarchy */
+.thin{font-weight:300}
+.bold{font-weight:900}
+
+/* spacing between blocks */
+.block{padding:36px 0}
+
+/* Footer (large gray panel at the bottom) */
+.footer-panel{background:var(--softbar);border-top:1px solid var(--hairline)}
+.footer-panel .pad{height:140px;display:flex;align-items:center}
+.footer-meta{display:flex;justify-content:space-between;width:100%;font-size:var(--tiny);text-transform:uppercase;letter-spacing:.06em}
+
+/* Responsivo: empilha a coluna esquerda acima em telas estreitas */
+@media (max-width: 720px){
+  .row{grid-template-columns:1fr}
+}
+
+
+
+/* === Figma menu spec ===
+display:flex;
+width:1460px;
+height:41px;
+padding:9px 13px;
+justify-content:space-between;
+align-items:center;
+border-radius:8px;
+background:#F3F3F3;
+================================ */
+.softbar{background:transparent;border-bottom:0;padding:12px 0; position:sticky; top:0; z-index:10}
+.softbar .inner{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:#F3F3F3;
+  border-radius:8px;
+  padding:9px 13px;
+  height:41px;           /* Figma height */
+  max-width:1460px;      /* Figma width */
+  margin:0 auto;         /* center it */
+}
+.softbar .brand,.softbar .shop{font-size:var(--tiny);text-transform:uppercase;letter-spacing:.06em}
