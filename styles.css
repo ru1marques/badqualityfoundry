@@ -68,6 +68,12 @@ a { color: inherit; text-decoration: none; }
   font-style: normal;
 }
 
+@font-face {
+  font-family: "chubby";
+  src: url("./fonts/chubby-v3.otf");
+  font-style: normal;
+}
+
 
 .erre{
     font-family: "erre";
@@ -107,6 +113,15 @@ a { color: inherit; text-decoration: none; }
 
 .rune{
   font-family: "rune";
+  margin: 0;
+  user-select: none;
+  line-height: .9;
+  letter-spacing: -.01em;
+  font-size: clamp(100px,28vw, 260px);
+}
+
+.chubby{
+  font-family: "chubby";
   margin: 0;
   user-select: none;
   line-height: .9;
@@ -246,6 +261,19 @@ a:hover {
   padding: 36px 0;
   border-top: 1px solid var(--hairline);
 }
+
+.tag{
+  display: inline-block;       /* mede pela largura do conteúdo */
+  background-color: #d0d0d0;
+  color: #3e3e3e;                  /* opcional: contraste */
+  border-radius: 4px;      /* em vez de stroke */
+  padding: 4px 8px;             /* espaço interno */
+  line-height: 1;               /* altura mais justa */
+  white-space: nowrap;
+  align-items: flex-end; 
+  font-size: 12px;        /* evita quebrar em 2 linhas (opcional) */
+}
+
 
 /* ================================
    Footer
