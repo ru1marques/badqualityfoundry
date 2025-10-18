@@ -48,6 +48,10 @@ a { color: inherit; text-decoration: none; }
   font-family: "maria";
   src: url("./fonts/MariaRM.ttf");
   font-style: normal;
+  font-weight: 400 700;    /* permite 400 e 700, não um range amplo */
+  font-stretch: 75% 125%;        /* mapeia o eixo wdth (IMPORTANTE p/ Safari) */
+  font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
@@ -285,6 +289,219 @@ a:hover {
   font-size: var(--tiny); text-transform: uppercase; letter-spacing: .06em;
   line-height: 1; font-weight: 700;
 }
+
+
+/* ================================
+  STYLES PÁGINAS SPECIMENS
+================================ */
+
+
+:root{
+  --max: 1200px; --radius: 16px; --border: #eaeaea; --ink:#0a0a0a; --muted:#666;
+  --bg:#fff; --panel:#f7f7f7; --shadow: 0 1px 2px rgba(0,0,0,.06);
+  --font: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:var(--font);}
+a{color:inherit;text-decoration:none}
+header{position:sticky;top:0;background:rgba(255,255,255,.95);backdrop-filter:saturate(120%) blur(10px);border-bottom:1px solid var(--border);z-index:10}
+header .bar{display:flex;align-items:center;justify-content:space-between;padding:12px 0}
+header nav a{font-size:14px;margin-left:16px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:12px;border:1px solid var(--border);background:#111;color:#fff;box-shadow:var(--shadow);font-size:14px}
+.btn.secondary{background:#fff;color:#111}
+.btn.ghost{background:transparent;color:#111}
+
+/* Hero */
+.hero{padding-top:28px;padding-bottom:8px}
+.hero-grid{display:grid;grid-template-columns:1fr;gap:24px}
+@media(min-width:900px){.hero-grid{grid-template-columns:2fr 1fr}}
+.scatter{position:relative;height:520px;border:1px solid var(--border);border-radius:var(--radius);padding:16px;overflow:hidden}
+.scatter span{position:absolute;user-select:none;display:block;transform-origin:50% 50%;opacity:0;animation:fadeIn .7s ease forwards}
+@keyframes fadeIn{to{opacity:1;transform:scale(1)}}
+
+/* Controls */
+section.controls{padding-block:28px}
+.panel{border:1px solid var(--border);border-radius:var(--radius);padding:16px;background:#fff}
+.grid{display:grid;gap:16px}
+@media(min-width:900px){.grid.cols-5{grid-template-columns:2fr 3fr}}
+.field{display:flex;flex-direction:column;gap:6px}
+input[type="range"],select,textarea,input[type="text"]{width:100%;padding:10px;border-radius:4px;border:0px solid var(--border);background:#fff}
+textarea{min-height:88px;resize:vertical}
+.specimen{border:1px solid var(--border);border-radius:12px;background:var(--panel);padding:24px;overflow:auto}
+pre{margin:0;white-space:pre-wrap;word-wrap:break-word}
+
+/* Gallery */
+.gallery{display:grid;gap:20px}
+@media(min-width:900px){.gallery{grid-template-columns:repeat(3,1fr)}}
+.tile{aspect-ratio:1/1;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;display:flex;align-items:end}
+.tile .label{background:rgba(255,255,255,.9);backdrop-filter:blur(6px);margin:16px;border-radius:12px;padding:14px}
+
+/* Glyph grid */
+.glyphs{margin-top:12px;border:1px solid var(--border);border-radius:16px;background:var(--panel);padding:12px;display:grid;grid-template-columns:repeat(12,1fr);gap:8px}
+.glyph{aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;border-radius:10px;background:#fff;border:1px solid var(--border);font-size:28px}
+
+/* Family */
+.family1{border:1px solid var(--border);border-radius:16px;padding:24px;background:#fff}
+.family-grid{display:grid;gap:12px;grid-template-columns:repeat(2,1fr)}
+@media(min-width:900px){.family-grid{grid-template-columns:repeat(5,1fr)}}
+.card{border:1px solid var(--border);border-radius:14px;padding:16px;background:#fafafa}
+.card .sample{font-size:48px;line-height:1;margin-top:10px}
+
+/* Footer */
+footer{border-top:1px solid var(--border);margin-top:24px}
+.more{display:grid;gap:12px;grid-template-columns:repeat(2,1fr)}
+@media(min-width:900px){.more{grid-template-columns:repeat(6,1fr)}}
+.more a{border:1px solid var(--border);border-radius:12px;padding:12px;display:block}
+.muted{color:var(--muted)}
+
+
+
+.type-toolbar{ display:flex; gap:28px; align-items:center; flex-wrap:wrap; font-size:14px; color:#111; margin:6px 0 10px; }
+.type-toolbar label{ display:flex; align-items:center; gap:10px; }
+.type-toolbar input[type="range"]{ width:220px; }
+.type-edit{
+  background:#ffffff; border:1px solid #e7e7e7; border-radius:14px;
+  padding:28px 24px; min-height:120px; outline:none; cursor:text;
+  white-space:pre-wrap; word-break:break-word; caret-color:#111;
+}
+.type-edit:focus{ box-shadow:0 0 0 2px rgba(0,0,0,.05) inset; }
+
+
+/* ================================
+  STYLES PÁGINAS SPECIMENS
+================================ */
+
+/* ---------- Slim sliders (style igual ao screenshot) ---------- */
+input[type="range"]{
+  -webkit-appearance: none; /* Safari/Chrome */
+  appearance: none;
+  width: 220px;              /* ajusta se quiseres */
+  background: transparent;
+  margin: 0;
+  padding: 10px 0;           /* espaço vertical para o polegar */
+}
+
+/* Track */
+input[type="range"]::-webkit-slider-runnable-track{
+  height: 2px;
+  background: #111;          /* linha preta fininha */
+  border-radius: 1px;
+}
+input[type="range"]::-moz-range-track{
+  height: 2px;
+  background: #111;
+  border-radius: 1px;
+}
+input[type="range"]::-ms-track{
+  height: 2px;
+  background: transparent;
+  border-color: transparent;
+  color: transparent;
+}
+input[type="range"]::-ms-fill-lower,
+input[type="range"]::-ms-fill-upper{
+  height: 2px;
+  background: #111;
+  border-radius: 1px;
+}
+
+/* Thumb (polegar) */
+input[type="range"]::-webkit-slider-thumb{
+  -webkit-appearance: none;
+  height: 14px;
+  width: 14px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 2px solid #111;    /* aro preto */
+  margin-top: -6px;          /* centra no track (14/2 - 2px track) */
+  cursor: pointer;
+}
+input[type="range"]::-moz-range-thumb{
+  height: 14px;
+  width: 14px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid #111;
+  cursor: pointer;
+}
+input[type="range"]::-ms-thumb{
+  height: 14px;
+  width: 14px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid #111;
+  cursor: pointer;
+}
+
+/* Hover/focus states (opcional) */
+input[type="range"]:hover::-webkit-slider-thumb{ box-shadow: 0 0 0 3px rgba(0,0,0,.06); }
+input[type="range"]:focus{ outline: none; }
+input[type="range"]:focus::-webkit-slider-thumb{ box-shadow: 0 0 0 3px rgba(0,0,0,.12); }
+input[type="range"]:focus::-moz-range-thumb{ box-shadow: 0 0 0 3px rgba(0,0,0,.12); }
+
+/* Labels ao lado (como na tua barra) */
+.type-toolbar{
+  display:flex; gap:40px; align-items:center; flex-wrap:wrap;
+  font-size:14px;
+}
+.type-toolbar label{ display:flex; align-items:center; gap:14px; }
+
+
+/* Estilos das opções de alinhamento de fontes */
+
+/* Esconde o radio mas mantém acessível (clicável via label) */
+.vh{
+  position:absolute;
+  width:1px; height:1px;
+  margin:-1px; padding:0;
+  overflow:hidden;
+  clip:rect(0 0 0 0);
+  clip-path: inset(50%);
+  border:0;
+}
+
+/* Layout em linha para os ícones */
+.align-group{ display:flex; align-items:center; gap:12px; }
+.align-toggle{ display:flex; align-items:center; gap:8px; }
+
+/* Botão de ícone clicável */
+.icon-btn{
+  display:inline-flex; align-items:center; justify-content:center;
+  width:36px; height:28px;
+  border:1px solid #ddd; border-radius:8px;
+  background:#fff; cursor:pointer;
+  user-select:none;
+}
+.icon-btn img{ width:18px; height:18px; display:block; pointer-events:none; }
+
+/* Estado selecionado e foco via o input escondido */
+.align-toggle input:checked + .icon-btn{
+  border-color:#111;
+  box-shadow: inset 0 0 0 1px #111;
+}
+.align-toggle input:focus + .icon-btn{
+  outline: 2px solid rgba(0,0,0,.35);
+  outline-offset: 2px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* ================================
    Responsivo

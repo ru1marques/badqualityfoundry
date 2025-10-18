@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="pt">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MARIA RM Typeface</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+ <div class="softbar">
+    <div class="container inner">
+      <a href="index.html" class="brand">㋛ Bad quality type foundry</a>
+      <a href="#" class="shop">[Soon] Shop</a>
+    </div>
+  </div>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <div id="scatter" class="scatter" aria-hidden="true"></div>
+        </div>
+        <aside class="panel" style="height:fit-content">
+          <h1 style="margin:0 0 8px 0">MARIA RM</h1>
+          <p class="muted" style="font-size:14px">Maria RM is a typeface born from the shapes engraved in the five letters of the iconic Maria biscuit, later expanded into a full alphabet with an experimental and exploratory approach while maintaining its traditional traits.The standout feature of Maria is its variable-width serifs, which create an almost choreographed movement between characters, making it highly expressive and full of personality.</p>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
+            <a class="btn secondary" href="#">Specimen PDF</a>
+            <a class="btn ghost" href="#tester">Try</a>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- CONTROLS / SPECIMEN
+    <section id="specimen" class="controls">
+      <div class="container">
+        <div class="panel">
+          <div class="grid cols-5">
+            <div class="grid" style="grid-template-columns:1fr 1fr;gap:12px">
+              <div class="field">
+                <label>Weight</label>
+                <select id="weight">
+                  <option value="300">Light</option>
+                  <option value="400" selected>Regular</option>
+                  <option value="500">Medium</option>
+                  <option value="700">Bold</option>
+                  <option value="900">Black</option>
+                </select>
+              </div>
+              <div class="field">
+                <label>Style</label>
+                <select id="style">
+                  <option value="normal" selected>Roman</option>
+                  <option value="italic">Italic</option>
+                </select>
+              </div>
+              <div class="field" style="grid-column:1/-1">
+                <label>Tamanho — <span id="sizeVal">64</span>px</label>
+                <input id="size" type="range" min="14" max="160" step="1" value="64" />
+              </div>
+              <div class="field" style="grid-column:1/-1">
+                <label>Entrelinha — <span id="leadVal">1.10</span></label>
+                <input id="leading" type="range" min="0.9" max="2" step="0.01" value="1.1" />
+              </div>
+              <div class="field" style="grid-column:1/-1">
+                <label>Tracking — <span id="trackVal">0</span></label>
+                <input id="tracking" type="range" min="-60" max="120" step="1" value="0" />
+              </div>
+            </div>
+            <div class="grid">
+              <div class="field">
+                <label>Sample Text</label>
+                <textarea id="sample">MY MOM MAKES MARIA COOKIES FOR LIVING</textarea>
+              </div>
+            </div>
+          </div>
+          <div class="specimen" style="margin-top:12px">
+            <pre id="render"></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+-->
+
+    
+  <!-- ===== INLINE TYPE EDITOR (IDs próprios; não colide com os antigos) ===== -->
+  <section class="container" style="padding:18px 16px">
+    <div class="type-toolbar">
+      <label>Size
+        <input id="edSize" type="range" min="24" max="240" step="1" value="128">
+      </label>
+      <label>Leading
+        <input id="edLeading" type="range" min="0.8" max="2" step="0.01" value="1.0">
+      </label>
+      <label id="expandLabel">Expand
+        <input id="edExpand" type="range" min="75" max="125" step="1" value="100">
+      </label>
+
+
+
+
+
+<div class="align-group">
+  <span class="align-label">Align</span>
+
+  <div class="align-toggle" role="radiogroup" aria-label="Text alignment">
+    <input class="vh" type="radio" id="edAlignLeft" name="edAlign" value="left" checked>
+    <label for="edAlignLeft" class="icon-btn" title="Align left" aria-label="Align left">
+      <img src="img/align_left.svg" alt="Align left" width="18" height="18">
+    </label>
+
+    <input class="vh" type="radio" id="edAlignCenter" name="edAlign" value="center">
+    <label for="edAlignCenter" class="icon-btn" title="Align center" aria-label="Align center">
+      <img src="img/align_center.svg" alt="Align center" width="18" height="18">
+    </label>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+    </div>
+
+
+
+
+    <div id="edPreview" class="type-edit" contenteditable="true" spellcheck="false">
+      PINHAIS
+    </div>
+    
+  </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- GALLERY -->
+    <section id="gallery" class="container">
+      <div class="gallery">
+        <div class="tile"><div class="label"><p class="muted" style="margin:0 0 6px 0;font-size:14px">Use case</p><h3 style="margin:0;font-weight:600">18.01.2019<br>Jill Sander<br>Fall—Winter<br>Collection</h3></div></div>
+        <div class="tile"><div class="label"><p class="muted" style="margin:0 0 6px 0;font-size:14px">Use case</p><h3 style="margin:0;font-weight:600">Editorial Grid<br>Layout Title</h3></div></div>
+        <div class="tile"><div class="label"><p class="muted" style="margin:0 0 6px 0;font-size:14px">Use case</p><h3 style="margin:0;font-weight:600">Wayfinding<br>ABC 123 →</h3></div></div>
+      </div>
+    </section>
+
+    <!-- GLYPHS -->
+    <section class="container" style="padding:24px 16px 36px 16px">
+      <h2 style="margin:0 0 8px 0">Character Overview</h2>
+      <div id="glyphGrid" class="glyphs"></div>
+    </section>
+
+    <!-- FAMILY -->
+    <section class="container" style="padding:24px 0 36px 0">
+      <div class="family1">
+        <div style="display:flex;gap:16px;justify-content:space-between;align-items:start;flex-wrap:wrap">
+          <div>
+            <h2 style="margin:0 0 6px 0">Your Font Family</h2>
+            <p class="muted" style="max-width:680px;font-size:14px">Inclui informação de licenças para desktop, web, app e trial. Explica a malha de pesos/estilos (e.g., 5 pesos × Roman/Italic). Adiciona links para EULA.</p>
+          </div>
+          <div style="display:flex;gap:8px">
+            <a class="btn secondary" href="#">⬇️ Trial</a>
+            <a class="btn" href="#buy">🛒 Buy</a>
+          </div>
+        </div>
+        <div class="family-grid" style="margin-top:16px">
+          <!-- Cards injected by JS -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container" style="padding:24px 0 48px 0">
+      <h3 class="muted" style="letter-spacing:.08em;text-transform:uppercase;font-size:12px;margin:0 0 10px 0">Mais Tipos</h3>
+      <div class="more">
+        <a href="#"><div style="font-size:28px;line-height:1;font-weight:600">Aa</div><div style="font-size:14px;margin-top:6px">Monosix</div><div class="muted" style="font-size:12px">8 estilos</div></a>
+        <a href="#"><div style="font-size:28px;line-height:1;font-weight:600">Aa</div><div style="font-size:14px;margin-top:6px">Hausen</div><div class="muted" style="font-size:12px">5 estilos</div></a>
+        <a href="#"><div style="font-size:28px;line-height:1;font-weight:600">Aa</div><div style="font-size:14px;margin-top:6px">Alfina</div><div class="muted" style="font-size:12px">7 estilos</div></a>
+        <a href="#"><div style="font-size:28px;line-height:1;font-weight:600">Aa</div><div style="font-size:14px;margin-top:6px">Rothek</div><div class="muted" style="font-size:12px">10 estilos</div></a>
+        <a href="#"><div style="font-size:28px;line-height:1;font-weight:600">Aa</div><div style="font-size:14px;margin-top:6px">Rational</div><div class="muted" style="font-size:12px">6 estilos</div></a>
+        <a href="#"><div style="font-size:28px;line-height:1;font-weight:600">Aa</div><div style="font-size:14px;margin-top:6px">Refiner</div><div class="muted" style="font-size:12px">8 estilos</div></a>
+      </div>
+      <div class="muted" style="font-size:12px;margin-top:24px">© <span id="year"></span> Your Foundry · Contact · EULA · Privacy</div>
+    </div>
+  </footer>
+
+
+  <script>window.DEFAULT_FONT = 'maria';</script>
+  <script src="fonts/maria.config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
