@@ -3,28 +3,62 @@
   const chosen = params.get("f") || window.DEFAULT_FONT || Object.keys(window.FONT_CONFIGS)[0];
   const config = window.FONT_CONFIGS[chosen];
 
-  // 1) Atualiza textos/hero
-  document.title = `Specimen — ${config.name}`;
-  const scatter = document.getElementById("scatter");
+
+
+// 1) Atualiza hero (sempre vídeo)
+document.title = `Specimen — ${config.name}`;
+const scatter = document.getElementById("scatter");
+if (scatter) {
   scatter.innerHTML = "";
-  config.heroWords.forEach((w,i) => {
-    const span = document.createElement("span");
-    span.textContent = w;
-    const left = (i*13)%88, top = (i*23)%78, rot = (i%2?-1:1)*(i*2);
-    const size = 28 + (i%7)*10, style = i%3===0? "italic":"normal";
-    span.style.left = left+"%";
-    span.style.top = top+"%";
-    span.style.transform = `rotate(${rot}deg)`;
-    span.style.fontSize = size+"px";
-    span.style.fontStyle = style;
-    span.style.fontFamily = config.cssFamily + ", Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial";
-    span.style.fontWeight = [300,400,500,700,900][i%5];
-    span.style.position = "absolute";
-    span.style.userSelect = "none";
-    scatter.appendChild(span);
-  });
+  scatter.classList.add("has-video");
+
+  const hv = config.heroVideo || {};
+
+  if (hv.embed) {
+    // YouTube/Vimeo (embed)
+    const iframe = document.createElement("iframe");
+    iframe.className = "hero-embed";
+    iframe.src = hv.embed;
+    iframe.allow = "autoplay; encrypted-media; picture-in-picture";
+    iframe.allowFullscreen = true;
+    scatter.appendChild(iframe);
+  } else {
+    // HTML5 <video>
+    const vid = document.createElement("video");
+    vid.className = "hero-video";
+    if (hv.src)    vid.src    = hv.src;
+    if (hv.poster) vid.poster = hv.poster;
+
+    // autoplay “amigo” de mobile
+    vid.autoplay = true;
+    vid.muted = true;
+    vid.loop = true;
+    vid.playsInline = true;
+
+    // controlos conforme config (default: true)
+    vid.controls = hv.controls !== false;
+
+    scatter.appendChild(vid);
+    vid.play?.().catch(()=>{/* alguns browsers bloqueiam autoplay; ignorar */});
+  }
+}
+
+
+
+
+
 
   // 2) Preenche selects e specimen
+  (function(){
+  const preview = document.getElementById("edPreview");
+  if (!preview) return;
+
+  // usa SEMPRE o texto do config no arranque
+  const txt = (config.editor && typeof config.editor.text === "string") ? config.editor.text : "";
+  preview.textContent = txt;   // <-- isto ignora o que vinha no HTML
+})();
+
+
   const weightSel = document.getElementById("weight");
   const styleSel  = document.getElementById("style");
   const sample    = document.getElementById("sample");

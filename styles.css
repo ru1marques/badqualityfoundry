@@ -6,11 +6,27 @@ html, body { margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 a { color: inherit; text-decoration: none; }
 
+/* todos os links (a) */
+a {
+  color: #0055ff;              /* azul forte / agressivo */
+  text-decoration: none;       /* sem sublinhado padrão */
+  font-weight: 500;            /* ligeiro destaque */
+}
+
+/* hover / foco */
+a:hover,
+a:focus {
+  color: #0033ff;              /* ainda mais intenso ao passar o rato */
+  text-decoration: underline;  /* opcional: sublinha só no hover */
+  text-decoration: none
+}
+
+
 /* -------------------------------
    Variáveis
 -------------------------------- */
 :root{
-  --container: 1120px;
+  --container: 1220px;
   --hairline: #e5e5e5;
   --muted: #8b8b8b;
   --softbar: #F3F3F3;
@@ -188,12 +204,12 @@ a:hover {
    Top bar — Liquid Glass branco sujo
 ================================ */
 .softbar{
-  position: sticky; top: 0; z-index: 20; padding: 12px 0; background: transparent;
+  position: sticky; top: 0; z-index: 20; padding: 12px 12px; background: transparent;
 }
 
 .softbar .inner{
   display:flex; justify-content:space-between; align-items:center;
-  width:100%; max-width:1460px; height:41px; padding:9px 13px; margin:0 auto;
+  width:100%; max-width:1660px; height:41px; padding:9px 13px; margin:0 auto;
   border-radius:12px;
 
   /* cor base: o “branco sujo” com transparência */
@@ -299,7 +315,7 @@ a:hover {
 :root{
   --max: 1200px; --radius: 16px; --border: #eaeaea; --ink:#0a0a0a; --muted:#666;
   --bg:#fff; --panel:#f7f7f7; --shadow: 0 1px 2px rgba(0,0,0,.06);
-  --font: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  --font: Geist-Regular, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
 }
 *{box-sizing:border-box}
 html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:var(--font);}
@@ -319,6 +335,26 @@ header nav a{font-size:14px;margin-left:16px}
 .scatter span{position:absolute;user-select:none;display:block;transform-origin:50% 50%;opacity:0;animation:fadeIn .7s ease forwards}
 @keyframes fadeIn{to{opacity:1;transform:scale(1)}}
 
+/* mantém a moldura da .scatter; retira padding se quiseres o vídeo colado às bordas */
+.scatter.has-video { padding: 0; }
+
+.scatter .hero-video,
+.scatter .hero-embed{
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  border: 0; border-radius: inherit;
+}
+
+.scatter .hero-video{
+  object-fit: cover;
+  background: #000;
+}
+
+/* iOS/WebKit: esconder UI nativa (só por precaução) */
+video::-webkit-media-controls { display: none !important; }
+
+
+
 /* Controls */
 section.controls{padding-block:28px}
 .panel{border:1px solid var(--border);border-radius:var(--radius);padding:16px;background:#fff}
@@ -337,7 +373,7 @@ pre{margin:0;white-space:pre-wrap;word-wrap:break-word}
 .tile .label{background:rgba(255,255,255,.9);backdrop-filter:blur(6px);margin:16px;border-radius:12px;padding:14px}
 
 /* Glyph grid */
-.glyphs{margin-top:12px;border:1px solid var(--border);border-radius:16px;background:var(--panel);padding:12px;display:grid;grid-template-columns:repeat(12,1fr);gap:8px}
+.glyphs{margin-top:12px;border:1px solid var(--border);border-radius:16px;background:var(--panel);padding:12px;display:grid;grid-template-columns:repeat(18,1fr);gap:8px}
 .glyph{aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;border-radius:10px;background:#fff;border:1px solid var(--border);font-size:28px}
 
 /* Family */
@@ -483,7 +519,6 @@ input[type="range"]:focus::-moz-range-thumb{ box-shadow: 0 0 0 3px rgba(0,0,0,.1
   outline: 2px solid rgba(0,0,0,.35);
   outline-offset: 2px;
 }
-
 
 
 
