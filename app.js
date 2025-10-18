@@ -221,3 +221,31 @@ if (scatter) {
 })();
 ///////////////////////
 
+// BG toggle (só editor inline)
+(function(){
+  const preview = document.getElementById("edPreview");
+  if (!preview) return;
+
+  // default vindo do config: editor.bg: "light" | "dark" (ou editor.dark: true)
+  const cfgs   = window.FONT_CONFIGS || {};
+  const chosen = window.DEFAULT_FONT || Object.keys(cfgs)[0];
+  const edCfg  = (cfgs[chosen]?.editor) || {};
+
+  const radios = document.querySelectorAll('input[name="edBg"]');
+  if (!radios.length) return;
+
+  const initial = (edCfg.bg === "dark" || edCfg.dark === true) ? "dark" : "light";
+
+  function apply(mode){
+    if (mode === "dark") preview.classList.add("dark");
+    else preview.classList.remove("dark");
+
+    // marcar UI
+    radios.forEach(r => { r.checked = (r.value === mode); });
+  }
+
+  radios.forEach(r => r.addEventListener("change", e => apply(e.target.value)));
+
+  // aplica no arranque (e marca o selecionado)
+  apply(initial);
+})();
