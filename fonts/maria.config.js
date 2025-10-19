@@ -19,7 +19,7 @@ window.FONT_CONFIGS.maria = {
 
   // 👉 só largura variável:
   axes: { wdth: { min: 75, max: 1025, default: 100, label: "Expand" } },
-  editor: { size: 328, leading: 1.0, expand: 100, text: "MY MOM MAKES MARIA COOKIES FOR A LIVING @2025" },
+  editor: { size: 328, leading: 0.5, expand: 100, text: "MY MOM MAKES MARIA COOKIES FOR A LIVING @2025" },
 
 
   heroVideo: {

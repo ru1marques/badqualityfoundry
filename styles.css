@@ -394,7 +394,15 @@ pre{margin:0;white-space:pre-wrap;word-wrap:break-word}
 
 /* Glyph grid */
 .glyphs{margin-top:12px;border:1px solid var(--border);border-radius:16px;background:var(--panel);padding:12px;display:grid;grid-template-columns:repeat(18,1fr);gap:8px}
-.glyph{aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;border-radius:10px;background:#fff;border:1px solid var(--border);font-size:28px}
+.glyph{aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;border-radius:10px;background:#fff;border:1px solid var(--border);font-size:28px;transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.glyph:hover{
+  transform: scale(3) rotate(360deg);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+
+}
 
 /* Family */
 .family1{border:1px solid var(--border);border-radius:16px;padding:24px;background:#fff}
