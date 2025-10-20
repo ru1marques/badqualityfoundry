@@ -21,7 +21,6 @@ window.FONT_CONFIGS.maria = {
   axes: { wdth: { min: 75, max: 1025, default: 100, label: "Expand" } },
   editor: { size: 328, leading: 0.5, expand: 100, text: "MY MOM MAKES MARIA COOKIES FOR A LIVING @2025" },
 
-
   heroVideo: {
     // A) ficheiro local/remoto
     src: "img/maria/maria_video_header.mp4",
@@ -31,4 +30,12 @@ window.FONT_CONFIGS.maria = {
     // embed: "https://www.youtube.com/embed/VIDEOID?autoplay=1&mute=1&loop=1&playlist=VIDEOID"
   }
 
+
+
 };
+
+
+
+
+
+

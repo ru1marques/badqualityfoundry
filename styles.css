@@ -609,15 +609,44 @@ input[type="range"]:focus::-moz-range-thumb{ box-shadow: 0 0 0 3px rgba(0,0,0,.1
 }
 
 
-
-
-
-
-
-
 /* ================================
    Responsivo
 ================================ */
 @media (max-width: 720px){
   .row{ grid-template-columns: 1fr; }
+}
+
+/* esconder Character Overview em mobile */
+@media (max-width: 720px){
+  .character-overview{ display: none; }
+}
+
+/* Paleta da seleção (podes ajustar) */
+:root{
+  --select-bg: #004cff;   /* azul “agressivo” */
+  --select-fg: #ffffff;   /* texto sobre a seleção */
+}
+
+/* Seleção global */
+::selection{
+  background: var(--select-bg);
+  color: var(--select-fg);
+}
+::-moz-selection{ /* Firefox antigo */
+  background: var(--select-bg);
+  color: var(--select-fg);
+}
+
+/* Inputs/textarea (alguns browsers requerem explicitamente) */
+input::selection,
+textarea::selection{
+  background: var(--select-bg);
+  color: var(--select-fg);
+}
+
+/* (Opcional) no editor dark, um azul com transparência para não “gritar” */
+#edPreview[data-bg="dark"] ::selection,
+#edPreview.type-edit.dark ::selection{
+  background: rgba(0, 76, 255, 0.5);
+  color: #fff;
 }
