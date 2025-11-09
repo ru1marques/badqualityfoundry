@@ -650,3 +650,33 @@ textarea::selection{
   background: rgba(0, 76, 255, 0.5);
   color: #fff;
 }
+
+
+/* Wrapper que o ScrollSmoother usa */
+#smooth-wrapper {
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Aqui fica o conteúdo que será “suavizado” */
+#smooth-content {
+  will-change: transform;
+}
+
+.iframe-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* ocupa o ecrã todo */
+background-color: #0000FF;}
+
+.doc-frame {
+  width: 100%;
+  max-width: 3000px;
+  min-width: none;
+  height: 80vh;
+  border: none;
+  border-radius: 8px;
+  
+}
+
