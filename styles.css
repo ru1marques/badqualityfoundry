@@ -56,7 +56,7 @@ a:focus {
 
 @font-face {
   font-family: "erre";
-  src: url("./fonts/partida.otf");
+  src: url("./fonts/partida.ttf");
   font-style: normal;
 }
 
@@ -112,12 +112,12 @@ body.allcaps-maria textarea {
 
 
 .erre{
-    font-family: "erre";
-     margin: 0;
+  font-family: "erre";
+  margin: 0;
   user-select: none;
-  line-height: .9;
+  line-height:1.1;
   letter-spacing: -.01em;
-  font-size: clamp(90px, 20vw, 190px);
+font-size: 15vw;
 }
 
 .maria{
@@ -277,7 +277,7 @@ a:hover {
    Separadores / Metadados
 ================================ */
 .family{ font-size: var(--small); color:#666; margin: 0; font-weight: 400; }
-.style{  font-size: var(--tiny);  color: var(--muted); margin: .5rem 0 0; }
+.style{  font-size: var(--tiny);  color: var(--muted); margin:0 0 0; }
 
 /* ================================
    Specimen
@@ -294,9 +294,42 @@ a:hover {
 .bold { font-weight: 700; }
 
 .block{
-  padding: 36px 0;
-  border-top: 1px solid var(--hairline);
+  padding: 19px 0px 0px;
 }
+
+/* topo */
+.block-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 10px;
+}
+
+.try-btn {
+  border: none;
+  border-radius: 8px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  background: #0047ff;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* specimen central */
+.block-specimen {
+  text-align: center;
+  margin: 40px 0;
+}
+
+
+/* tamanho nome do lado esquerdo */
+.family {
+  font-size: 16px;
+  margin: 0;
+}
+
+
 
 .tag{
   display: inline-block;       /* mede pela largura do conteúdo */
@@ -336,7 +369,7 @@ a:hover {
 *{box-sizing:border-box}
 html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:var(--font);}
 a{color:inherit;text-decoration:none}
-header{position:sticky;top:0;background:rgba(255,255,255,.95);backdrop-filter:saturate(120%) blur(10px);border-bottom:1px solid var(--border);z-index:10}
+header{position:sticky;top:0;background:rgba(255,255,255,.95);backdrop-filter:saturate(120%) blur(10px) var(--border);z-index:10}
 header .bar{display:flex;align-items:center;justify-content:space-between;padding:12px 0}
 header nav a{font-size:14px;margin-left:16px}
 .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:12px;border:1px solid var(--border);background:#111;color:#fff;box-shadow:var(--shadow);font-size:14px}
