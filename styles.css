@@ -728,3 +728,48 @@ background-color: #0000FF;}
   
 }
 
+
+/*cursorrrr 
+.cursor-try {
+  position: fixed;
+  top: 0;
+  left: 0;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 200;
+
+  background: #0047ff;
+  color: white;
+  font-family: "Geist", sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 8px 14px;
+  border-radius: 12px;
+  letter-spacing: 0.08em;
+
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+*/
+.cursor-try {
+  position: fixed;
+  top: 0;
+  left: 0;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 200;
+
+  background: #0047ff;
+  color: white;
+  font-family: "Geist", sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 8px 14px;
+  border-radius: 50px;
+  letter-spacing: 0.08em;
+
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+
