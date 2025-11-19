@@ -196,28 +196,143 @@ if (scatter) {
   grid.appendChild(renderGrid(fallback, config.cssFamily));
 })();
 
+// Ano do footer
+const yearEl = document.getElementById("year");
+if (yearEl) {
+  yearEl.textContent = new Date().getFullYear();
+}
 
-  // 4) Cartões de família (um por peso da config)
-  const famGrid = document.querySelector(".family-grid");
-  famGrid.innerHTML = "";
-  config.weights.forEach(w=>{
-    const card = document.createElement("div"); card.className="card";
-    const meta = document.createElement("div");
-    meta.style.display='flex'; meta.style.justifyContent='space-between'; meta.style.fontSize='12px'; meta.className='muted';
-    meta.innerHTML = `<span>${w.label}</span><span class="styleTag">${w.style === "italic" ? "Italic" : "Roman"}</span>`;
-    const sampleEl = document.createElement("div"); sampleEl.className='sample'; sampleEl.textContent='Aa';
-    sampleEl.style.fontFamily=config.cssFamily + ", Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial";
-    sampleEl.style.fontWeight=w.value;
-    card.appendChild(meta); card.appendChild(sampleEl); famGrid.appendChild(card);
-  });
-
-  // 5) Atualiza “Roman/Italic” dos cartões quando o select muda
-  styleSel.addEventListener("input", ()=>{
-    document.querySelectorAll(".styleTag").forEach(el=> el.textContent = styleSel.value==='italic'?'Italic':'Roman');
-  });
-
-  // Ano do footer
-  document.getElementById("year").textContent = new Date().getFullYear();
 })();
 ///////////////////////
 
+
+//AUTOPLAY SLIDER SPECIMEN//
+
+
+// AUTOPLAY SLIDER SPECIMEN
+// AUTOPLAY SLIDER — CENTRO + LOOP INFINITO VISUAL
+(function(){
+  const slider = document.getElementById("specimenSlider");
+  if (!slider) return;
+
+  const track    = slider.querySelector(".slider-track");
+  const slides   = Array.from(slider.querySelectorAll(".slider-slide"));
+  const prevBtn  = slider.querySelector("[data-slider-prev]");
+  const nextBtn  = slider.querySelector("[data-slider-next]");
+
+  if (!track || !slides.length) return;
+
+  const realSlides = slides.slice();         // cópia dos originais
+  const realTotal  = realSlides.length;
+
+  // Clones para loop infinito visual
+  const firstClone = realSlides[0].cloneNode(true);
+  const lastClone  = realSlides[realTotal - 1].cloneNode(true);
+
+  track.insertBefore(lastClone, realSlides[0]);
+  track.appendChild(firstClone);
+
+  const allSlides  = Array.from(track.querySelectorAll(".slider-slide")); // real + 2 clones
+
+  let index = 1;                        // começamos no 1: primeiro slide REAL
+  const AUTOPLAY_DELAY = 3000;
+  let autoplayId = null;
+
+  // centra o slide de índice i (em allSlides)
+  function centerSlide(i, withTransition = true){
+    const slide      = allSlides[i];
+    if (!slide) return;
+
+    const sliderRect = slider.getBoundingClientRect();
+    const viewportCenter = window.innerWidth / 2;
+
+    // posição do centro do slide em relação ao viewport, ignorando transform
+    const slideCenter = sliderRect.left + slide.offsetLeft + (slide.offsetWidth / 2);
+
+    const offset = viewportCenter - slideCenter;
+
+    if (!withTransition){
+      const prevTransition = track.style.transition;
+      track.style.transition = "none";
+      track.style.transform  = `translateX(${offset}px)`;
+      // força reflow para o browser “aceitar” o change
+      // eslint-disable-next-line no-unused-expressions
+      track.offsetHeight;
+      track.style.transition = prevTransition || "transform 0.6s ease";
+    } else {
+      track.style.transform = `translateX(${offset}px)`;
+    }
+  }
+
+  function goToSlide(newIndex){
+    index = newIndex;
+    centerSlide(index, true);
+  }
+
+  function next(){
+    goToSlide(index + 1);
+  }
+
+  function prev(){
+    goToSlide(index - 1);
+  }
+
+  function startAutoplay(){
+    const prefersReducedMotion =
+      window.matchMedia &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (prefersReducedMotion) return;
+
+    stopAutoplay();
+    autoplayId = setInterval(next, AUTOPLAY_DELAY);
+  }
+
+  function stopAutoplay(){
+    if (autoplayId !== null){
+      clearInterval(autoplayId);
+      autoplayId = null;
+    }
+  }
+
+  // Corrige quando passamos para os clones (loop infinito)
+  track.addEventListener("transitionend", function(){
+    // se estamos no clone do último (primeira posição: 0)
+    if (index === 0){
+      index = realTotal;          // última slide REAL (antes do clone final)
+      centerSlide(index, false);  // jump sem animação
+    }
+    // se estamos no clone do primeiro (última posição do array)
+    else if (index === allSlides.length - 1){
+      index = 1;                  // primeira slide REAL
+      centerSlide(index, false);  // jump sem animação
+    }
+  });
+
+  // Botões
+  if (nextBtn){
+    nextBtn.addEventListener("click", function(){
+      next();
+      startAutoplay();
+    });
+  }
+  if (prevBtn){
+    prevBtn.addEventListener("click", function(){
+      prev();
+      startAutoplay();
+    });
+  }
+
+  // Pausa ao passar o rato
+  slider.addEventListener("mouseenter", stopAutoplay);
+  slider.addEventListener("mouseleave", startAutoplay);
+
+  // Recentrar em resize
+  window.addEventListener("resize", function(){
+    centerSlide(index, false);
+  });
+
+  // Start
+  centerSlide(index, false);  // 1º real ao centro
+  startAutoplay();
+})();
