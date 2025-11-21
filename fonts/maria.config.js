@@ -28,7 +28,41 @@ window.FONT_CONFIGS.maria = {
     controls: true                            // true/false (opcional)
     // B) —alternativa— YouTube/Vimeo embed:
     // embed: "https://www.youtube.com/embed/VIDEOID?autoplay=1&mute=1&loop=1&playlist=VIDEOID"
+  },
+
+
+  // Slider imagens
+  slider: [
+    "img/maria/1.jpg",
+    "img/maria/2.jpg",
+    "img/maria/3.jpg",
+    "img/maria/4.jpg",
+    "img/maria/5.jpg",
+    "img/maria/6.jpg",
+    "img/maria/7.jpg",
+    "img/maria/8.jpg",
+    "img/maria/9.jpg",
+    "img/maria/10.jpg"
+  ],
+
+editors2col: [
+  {
+    size: 5,
+    leading: 1.05,
+    expand: 990,
+    text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+  },
+
+  {
+    size: 920,
+    leading: 0.95,
+    expand: 300,
+    text: "&"
   }
+]
+
+
+
 
 
 

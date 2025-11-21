@@ -203,136 +203,225 @@ if (yearEl) {
 }
 
 })();
-///////////////////////
 
+////////// SLIDER INFINITO C IMAGENS AUTOMATICAS ////
 
-//AUTOPLAY SLIDER SPECIMEN//
+document.addEventListener("DOMContentLoaded", () => {
+  const fontId = window.DEFAULT_FONT || "maria";
+  const cfg = window.FONT_CONFIGS?.[fontId];
+  if (!cfg?.slider || !Array.isArray(cfg.slider)) return;
 
+  const root = document.getElementById("specimenSlider");
+  const track = document.getElementById("sliderTrack");
+  const viewport = root.querySelector(".slider-viewport");
+  if (!track || !viewport) return;
 
-// AUTOPLAY SLIDER SPECIMEN
-// AUTOPLAY SLIDER — CENTRO + LOOP INFINITO VISUAL
-(function(){
-  const slider = document.getElementById("specimenSlider");
-  if (!slider) return;
+  // 1) render slides reais
+  track.innerHTML = cfg.slider
+    .map((src, i) => `
+      <figure class="slider-slide" data-real-index="${i}">
+        <img src="${src}" class="slider-img" alt="slide ${i+1}">
+      </figure>
+    `)
+    .join("");
 
-  const track    = slider.querySelector(".slider-track");
-  const slides   = Array.from(slider.querySelectorAll(".slider-slide"));
-  const prevBtn  = slider.querySelector("[data-slider-prev]");
-  const nextBtn  = slider.querySelector("[data-slider-next]");
+  let slides = Array.from(root.querySelectorAll(".slider-slide"));
 
-  if (!track || !slides.length) return;
+  // 2) criar clones
+  const firstClone = slides[0].cloneNode(true);
+  const lastClone = slides[slides.length - 1].cloneNode(true);
 
-  const realSlides = slides.slice();         // cópia dos originais
-  const realTotal  = realSlides.length;
+  firstClone.dataset.clone = "first";
+  lastClone.dataset.clone = "last";
 
-  // Clones para loop infinito visual
-  const firstClone = realSlides[0].cloneNode(true);
-  const lastClone  = realSlides[realTotal - 1].cloneNode(true);
-
-  track.insertBefore(lastClone, realSlides[0]);
   track.appendChild(firstClone);
+  track.insertBefore(lastClone, slides[0]);
 
-  const allSlides  = Array.from(track.querySelectorAll(".slider-slide")); // real + 2 clones
+  // atualizar lista completa
+  slides = Array.from(root.querySelectorAll(".slider-slide"));
 
-  let index = 1;                        // começamos no 1: primeiro slide REAL
-  const AUTOPLAY_DELAY = 3000;
-  let autoplayId = null;
+  // começar no slide 1 real (porque 0 é clone)
+  let index = 1;
 
-  // centra o slide de índice i (em allSlides)
-  function centerSlide(i, withTransition = true){
-    const slide      = allSlides[i];
-    if (!slide) return;
+  function update(animate = true) {
+    const viewportRect = viewport.getBoundingClientRect();
+    const active = slides[index];
+    const activeRect = active.getBoundingClientRect();
 
-    const sliderRect = slider.getBoundingClientRect();
-    const viewportCenter = window.innerWidth / 2;
+    // centro do slide ativo dentro do track
+    const activeCenter = active.offsetLeft + activeRect.width / 2;
 
-    // posição do centro do slide em relação ao viewport, ignorando transform
-    const slideCenter = sliderRect.left + slide.offsetLeft + (slide.offsetWidth / 2);
+    // centro do viewport
+    const viewportCenter = viewportRect.width / 2;
 
-    const offset = viewportCenter - slideCenter;
+    // offset necessário
+    const x = viewportCenter - activeCenter;
 
-    if (!withTransition){
-      const prevTransition = track.style.transition;
-      track.style.transition = "none";
-      track.style.transform  = `translateX(${offset}px)`;
-      // força reflow para o browser “aceitar” o change
-      // eslint-disable-next-line no-unused-expressions
-      track.offsetHeight;
-      track.style.transition = prevTransition || "transform 0.6s ease";
-    } else {
-      track.style.transform = `translateX(${offset}px)`;
-    }
+    track.style.transition = animate ? "transform .35s ease" : "none";
+    track.style.transform = `translateX(${x}px)`;
   }
 
-  function goToSlide(newIndex){
-    index = newIndex;
-    centerSlide(index, true);
-  }
+  // Setas
+  root.querySelector("[data-slider-prev]")?.addEventListener("click", () => {
+    index--;
+    update(true);
+  });
 
-  function next(){
-    goToSlide(index + 1);
-  }
+  root.querySelector("[data-slider-next]")?.addEventListener("click", () => {
+    index++;
+    update(true);
+  });
 
-  function prev(){
-    goToSlide(index - 1);
-  }
+  // 3) quando a animação termina, verificar clones
+  track.addEventListener("transitionend", () => {
+    const current = slides[index];
 
-  function startAutoplay(){
-    const prefersReducedMotion =
-      window.matchMedia &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    if (prefersReducedMotion) return;
-
-    stopAutoplay();
-    autoplayId = setInterval(next, AUTOPLAY_DELAY);
-  }
-
-  function stopAutoplay(){
-    if (autoplayId !== null){
-      clearInterval(autoplayId);
-      autoplayId = null;
-    }
-  }
-
-  // Corrige quando passamos para os clones (loop infinito)
-  track.addEventListener("transitionend", function(){
-    // se estamos no clone do último (primeira posição: 0)
-    if (index === 0){
-      index = realTotal;          // última slide REAL (antes do clone final)
-      centerSlide(index, false);  // jump sem animação
-    }
-    // se estamos no clone do primeiro (última posição do array)
-    else if (index === allSlides.length - 1){
-      index = 1;                  // primeira slide REAL
-      centerSlide(index, false);  // jump sem animação
+    if (current?.dataset.clone === "first") {
+      // se chegámos ao clone que está no fim → saltar ao primeiro real
+      index = 1;
+      update(false);
+    } 
+    else if (current?.dataset.clone === "last") {
+      // se chegámos ao clone que está no início → saltar ao último real
+      index = slides.length - 2;
+      update(false);
     }
   });
 
-  // Botões
-  if (nextBtn){
-    nextBtn.addEventListener("click", function(){
-      next();
-      startAutoplay();
-    });
+  // atualizar ao carregar e em resize
+  update(false);
+  window.addEventListener("resize", () => update(false));
+});
+
+
+///////////////// text samples///////////
+document.addEventListener("DOMContentLoaded", () => {
+  const fontId = window.DEFAULT_FONT || "maria";
+  const cfg = window.FONT_CONFIGS?.[fontId];
+  if (!cfg) return;
+
+  const host = document.getElementById("editors2col");
+  if (!host) return;
+
+  // defaults para as 2 colunas
+  const colDefaults = Array.isArray(cfg.editors2col) && cfg.editors2col.length
+    ? cfg.editors2col
+    : [
+        cfg.editor || {},
+        {
+          ...(cfg.editor || {}),
+          expand: cfg.axes?.wdth?.max ?? 300,
+          text: (cfg.editor?.text || cfg.specimenText || "").toUpperCase()
+        }
+      ];
+
+  // construir HTML dos 2 editores
+  host.innerHTML = colDefaults.map((d, i) => buildMiniEditorHTML(i + 1)).join("");
+
+  // iniciar cada editor
+  colDefaults.forEach((d, i) => initMiniEditor(cfg, i + 1, d));
+});
+
+
+// ---------- HTML do editor mini (com IDs únicos) ----------
+function buildMiniEditorHTML(n){
+  return `
+    <div class="editor-mini panel" data-editor="${n}">
+      <div class="type-toolbar">
+        <label>Size
+          <input id="ed${n}Size" type="range" min="24" max="240" step="1" value="128">
+        </label>
+        <label>Leading
+          <input id="ed${n}Leading" type="range" min="0.8" max="2" step="0.01" value="1.0">
+        </label>
+        <label>
+          Expand
+          <input id="ed${n}Expand" type="range">
+        </label>
+
+        <div class="align-group">
+          <span class="align-label">Align</span>
+          <div class="align-toggle" role="radiogroup" aria-label="Text alignment">
+            <input class="vh" type="radio" id="ed${n}AlignLeft" name="ed${n}Align" value="left" checked>
+            <label for="ed${n}AlignLeft" class="icon-btn" title="Align left" aria-label="Align left">
+              <img src="img/align_left.svg" alt="Align left" width="18" height="18">
+            </label>
+
+            <input class="vh" type="radio" id="ed${n}AlignCenter" name="ed${n}Align" value="center">
+            <label for="ed${n}AlignCenter" class="icon-btn" title="Align center" aria-label="Align center">
+              <img src="img/align_center.svg" alt="Align center" width="18" height="18">
+            </label>
+          </div>
+
+          <div class="bg-toggle" role="radiogroup" aria-label="Editor background">
+            <input class="vh" type="radio" id="ed${n}BgLight" name="ed${n}Bg" value="light" checked>
+            <label for="ed${n}BgLight" class="swatch swatch--light" title="Light"></label>
+
+            <input class="vh" type="radio" id="ed${n}BgDark" name="ed${n}Bg" value="dark">
+            <label for="ed${n}BgDark" class="swatch swatch--dark" title="Dark"></label>
+          </div>
+        </div>
+      </div>
+
+      <div id="ed${n}Preview" class="type-edit" contenteditable="true" spellcheck="false"></div>
+    </div>
+  `;
+}
+
+
+// ---------- Lógica do editor mini ----------
+function initMiniEditor(cfg, n, defaults){
+  const sizeInput    = document.getElementById(`ed${n}Size`);
+  const leadInput    = document.getElementById(`ed${n}Leading`);
+  const expandInput  = document.getElementById(`ed${n}Expand`);
+  const preview      = document.getElementById(`ed${n}Preview`);
+  const alignLeft    = document.getElementById(`ed${n}AlignLeft`);
+  const alignCenter  = document.getElementById(`ed${n}AlignCenter`);
+  const bgLight      = document.getElementById(`ed${n}BgLight`);
+  const bgDark       = document.getElementById(`ed${n}BgDark`);
+
+  if (!sizeInput || !leadInput || !expandInput || !preview) return;
+
+  // eixo wdth do config (o teu "Expand")
+  const wdthAxis = cfg.axes?.wdth || { min: 75, max: 125, default: 100 };
+
+  expandInput.min = wdthAxis.min;
+  expandInput.max = wdthAxis.max;
+  expandInput.step = 1;
+
+  // aplicar defaults
+  sizeInput.value   = defaults.size ?? cfg.editor?.size ?? 128;
+  leadInput.value   = defaults.leading ?? cfg.editor?.leading ?? 1.0;
+  expandInput.value = defaults.expand ?? cfg.editor?.expand ?? wdthAxis.default;
+  preview.textContent = defaults.text ?? cfg.editor?.text ?? cfg.specimenText ?? "";
+
+  // função que atualiza CSS
+  function render(){
+    const size = Number(sizeInput.value);
+    const leading = Number(leadInput.value);
+    const expand = Number(expandInput.value);
+
+    preview.style.fontFamily = cfg.cssFamily || cfg.name || "inherit";
+    preview.style.fontSize = size + "px";
+    preview.style.lineHeight = leading;
+    preview.style.fontVariationSettings = `"wdth" ${expand}`;
+
+    // alinhamento
+    preview.style.textAlign = alignCenter.checked ? "center" : "left";
+
+    // bg
+    preview.style.background = bgDark.checked ? "#111" : "#fff";
+    preview.style.color = bgDark.checked ? "#fff" : "#111";
   }
-  if (prevBtn){
-    prevBtn.addEventListener("click", function(){
-      prev();
-      startAutoplay();
-    });
-  }
 
-  // Pausa ao passar o rato
-  slider.addEventListener("mouseenter", stopAutoplay);
-  slider.addEventListener("mouseleave", startAutoplay);
+  // listeners
+  sizeInput.addEventListener("input", render);
+  leadInput.addEventListener("input", render);
+  expandInput.addEventListener("input", render);
+  alignLeft.addEventListener("change", render);
+  alignCenter.addEventListener("change", render);
+  bgLight.addEventListener("change", render);
+  bgDark.addEventListener("change", render);
 
-  // Recentrar em resize
-  window.addEventListener("resize", function(){
-    centerSlide(index, false);
-  });
-
-  // Start
-  centerSlide(index, false);  // 1º real ao centro
-  startAutoplay();
-})();
+  render();
+}

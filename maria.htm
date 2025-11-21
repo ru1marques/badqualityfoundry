@@ -166,7 +166,15 @@
   </section>
 
 
-  <!-- GALLERY -->
+<!-- Injeta text samples -->
+<!-- 2x Editors side-by-side -->
+<section class="container" style="padding:18px 16px">
+  <div id="editors2col" class="editors-2col"></div>
+</section>
+
+
+
+<!-- GALLERY -->
 <section id="gallery" class="container">
   <div class="gallery">
 
@@ -209,38 +217,18 @@
 
   </div>
 
-<!-- SLIDER FULL WIDTH — IMAGENS COM CANTOS VISÍVEIS -->
+<!-- SLIDER FULL WIDTH  -->
 <section class="slider-full">
   <div class="slider" id="specimenSlider">
     <button class="slider-arrow slider-arrow--prev" type="button" data-slider-prev aria-label="Previous slide">
       ‹
     </button>
 
+<!-- Vai buscar as imagens automaticamente  -->
     <div class="slider-viewport">
-      <div class="slider-track">
-        <!-- SLIDE 1 -->
-        <figure class="slider-slide">
-          <img src="img/maria/1.jpg" alt="Maria RM – feature 1" class="slider-img">
-        </figure>
-
-        <!-- SLIDE 2 -->
-        <figure class="slider-slide">
-          <img src="img/maria/2.jpg" alt="Maria RM – feature 2" class="slider-img">
-        </figure>
-
-        <!-- SLIDE 3 -->
-        <figure class="slider-slide">
-          <img src="img/maria/3.jpg" alt="Maria RM – feature 3" class="slider-img">
-        </figure>
-
-        <!-- podes adicionar mais -->
-        <!--
-        <figure class="slider-slide">
-          <img src="img/maria/fea_4.jpg" alt="Maria RM – feature 4" class="slider-img">
-        </figure>
-        -->
-      </div>
+      <div class="slider-track" id="sliderTrack"></div>
     </div>
+  
 
     <button class="slider-arrow slider-arrow--next" type="button" data-slider-next aria-label="Next slide">
       ›
@@ -259,7 +247,9 @@
       <div id="glyphGrid" class="glyphs"></div>
     </section>
 
- 
+
+
+
 
   <!-- Footer gray panel -->
  <footer>
@@ -280,6 +270,8 @@
  <script src="fonts/maria.config.js"></script>
 <script>window.DEFAULT_FONT = 'maria';</script>
 <script src="app.js"></script>
+
+
 
 
 

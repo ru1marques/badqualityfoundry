@@ -729,7 +729,6 @@ background-color: #0000FF;}
 /* ================================
    Slider full width — center + peek
 ================================ */
-
 .slider-full{
   width:100%;
   margin:48px 0;
@@ -741,64 +740,80 @@ background-color: #0000FF;}
   overflow:hidden;
 }
 
+/* viewport corta o excesso */
 .slider-viewport{
   width:100%;
   overflow:hidden;
 }
 
-/* Track com gap + padding para ver vizinhas */
+/* track com gap e padding para “respirar” */
 .slider-track{
   display:flex;
-  gap:32px;
-  padding:0 20vw;           /* controla o quanto se vê dos lados */
-  transition: transform 0.6s ease;
+  gap:24px;
+  padding:24px;
+  transition: transform 0.35s ease;
   will-change: transform;
-}
-
-/* Cada slide tem largura “poster” flexível, qualquer ratio */
-.slider-slide{
-  flex:0 0 auto;
-  width: clamp(200px, 70vw, 920px);  /* tamanho da imagem */
-  margin:0;
-  display:flex;
   align-items:center;
+}
+.slider-slide{
+  margin: 0;            /* IMPORTANTÍSSIMO para <figure> */
+  flex: 0 0 70%;
+  display:flex;
   justify-content:center;
-  overflow:hidden;
-  border-radius:4px;
+  align-items:center;
+  box-sizing: border-box;
 }
 
-/* A imagem adapta-se ao slide, qualquer proporção */
+
+/* imagem dentro do slide */
 .slider-img{
   width:100%;
   height:auto;
   display:block;
-  border-radius:inherit;
+  object-fit:contain;
+  border-radius:12px;
 }
+
+/* mobile: centro maior, lados menos */
+@media (max-width: 800px){
+  .slider-slide{ flex-basis:85%; }
+  .slider-track{ gap:16px; padding:16px; }
+}
+
+
 
 /* Arrows minimalistas */
-.slider-arrow{
-  position:absolute;
-  top:50%;
-  transform:translateY(-50%);
-  border:none;
-  width:34px;
-  height:34px;
-  border-radius:999px;
-  background: rgba(17,17,17,0.08);
-  color:#111;
-  font-size:20px;
-  line-height:1;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  cursor:pointer;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  transition: background 0.2s ease, transform 0.2s ease;
+
+.slider-arrow {
+  position: absolute;
+  padding-bottom: 5px;
+  top: 50%;
+  transform: translateY(-50%); /* centraliza verticalmente */
+  z-index: 10;                 /* fica por cima da imagem */
+  font-size: 2rem;
+  background: rgba(0,0,0,0.4);
+  color: white;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+  backdrop-filter: blur(4px);
 }
 
-.slider-arrow--prev{ left:16px; }
-.slider-arrow--next{ right:16px; }
+/* seta esquerda */
+.slider-arrow--prev {
+  left: 10px;
+}
+
+/* seta direita */
+.slider-arrow--next {
+  right: 10px;
+}
 
 .slider-arrow:hover{
   background: rgba(17,17,17,0.15);
@@ -818,5 +833,38 @@ background-color: #0000FF;}
     width:30px;
     height:30px;
     font-size:18px;
+  }
+}
+
+
+/* Conteúdo para injetar text samples */
+
+.editors-2col{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.editor-mini{
+  border-radius: 12px;
+  padding: 12px;
+}
+
+.editor-mini .type-toolbar{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-bottom:10px;
+}
+
+.editor-mini .type-edit{
+  min-height: 240px;
+  padding: 12px;
+  border-radius: 10px;
+}
+
+@media (max-width: 900px){
+  .editors-2col{
+    grid-template-columns: 1fr;
   }
 }
