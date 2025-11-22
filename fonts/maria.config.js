@@ -54,10 +54,10 @@ editors2col: [
   },
 
   {
-    size: 920,
+    size: 420,
     leading: 0.95,
     expand: 300,
-    text: "&"
+    text: "A"
   }
 ]
 

@@ -329,7 +329,7 @@ function buildMiniEditorHTML(n){
     <div class="editor-mini panel" data-editor="${n}">
       <div class="type-toolbar">
         <label>Size
-          <input id="ed${n}Size" type="range" min="24" max="240" step="1" value="128">
+          <input id="ed${n}Size" type="range" min="24" max="640" step="1" value="128">
         </label>
         <label>Leading
           <input id="ed${n}Leading" type="range" min="0.8" max="2" step="0.01" value="1.0">
@@ -383,7 +383,7 @@ function initMiniEditor(cfg, n, defaults){
   if (!sizeInput || !leadInput || !expandInput || !preview) return;
 
   // eixo wdth do config (o teu "Expand")
-  const wdthAxis = cfg.axes?.wdth || { min: 75, max: 125, default: 100 };
+  const wdthAxis = cfg.axes?.wdth || { min: 75, max: 2225, default: 100 };
 
   expandInput.min = wdthAxis.min;
   expandInput.max = wdthAxis.max;
