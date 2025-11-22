@@ -383,7 +383,7 @@ function initMiniEditor(cfg, n, defaults){
   if (!sizeInput || !leadInput || !expandInput || !preview) return;
 
   // eixo wdth do config (o teu "Expand")
-  const wdthAxis = cfg.axes?.wdth || { min: 75, max: 2225, default: 100 };
+  const wdthAxis = cfg.axes?.wdth || { min: 75, max: 25, default: 100 };
 
   expandInput.min = wdthAxis.min;
   expandInput.max = wdthAxis.max;
@@ -410,8 +410,8 @@ function initMiniEditor(cfg, n, defaults){
     preview.style.textAlign = alignCenter.checked ? "center" : "left";
 
     // bg
-    preview.style.background = bgDark.checked ? "#111" : "#fff";
-    preview.style.color = bgDark.checked ? "#fff" : "#111";
+    preview.style.background = bgDark.checked ? "#111" : "#100f0fff";
+    preview.style.color = bgDark.checked ? "#000000ff" : "#ffffffff";
   }
 
   // listeners

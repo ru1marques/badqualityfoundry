@@ -430,6 +430,9 @@ textarea{min-height:88px;resize:vertical}
 .specimen{border:1px solid var(--border);border-radius:12px;background:var(--panel);padding:24px;overflow:auto}
 pre{margin:0;white-space:pre-wrap;word-wrap:break-word}
 
+
+
+
 /* Gallery */
 .gallery{display:grid;gap:20px}
 @media(min-width:900px){.gallery{grid-template-columns:repeat(3,1fr)}}
@@ -868,3 +871,4 @@ background-color: #0000FF;}
     grid-template-columns: 1fr;
   }
 }
+
