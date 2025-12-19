@@ -62,7 +62,7 @@ a:focus {
 
 @font-face {
   font-family: "maria";
-src: url("./fonts/MariaRM.ttf");
+src: url("./fonts/mariarm.ttf");
   font-style: normal;
   font-weight: 400 700;    /* permite 400 e 700, não um range amplo */
   font-stretch: 75% 125%;        /* mapeia o eixo wdth (IMPORTANTE p/ Safari) */
@@ -94,13 +94,13 @@ body.allcaps-maria textarea {
 
 @font-face {
   font-family: "pinhais";
-src: url("./fonts/RR-Pinhais.ttf");
+src: url("./fonts/rr-pinhais.ttf");
   font-style: normal;
 }
 
 @font-face {
   font-family: "rune";
-  src: url("./fonts/RR-RAN.ttf") format("truetype");
+  src: url("./fonts/rr-ran.ttf") format("truetype");
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
