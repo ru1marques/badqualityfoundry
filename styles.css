@@ -94,13 +94,13 @@ body.allcaps-maria textarea {
 
 @font-face {
   font-family: "pinhais";
-src: url("./fonts/rr-pinhais.ttf");
+src: url("./fonts/rrpinhais.ttf");
   font-style: normal;
 }
 
 @font-face {
   font-family: "rune";
-  src: url("./fonts/rr-ran.ttf") format("truetype");
+  src: url("./fonts/rrran.ttf") format("truetype");
   font-style: normal;
   font-display: swap;
 }
