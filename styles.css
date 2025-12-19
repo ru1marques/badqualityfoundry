@@ -101,7 +101,6 @@ src: url("./fonts/rr-pinhais.ttf");
 @font-face {
   font-family: "rune";
   src: url("./fonts/rr-ran.ttf") format("truetype");
-  font-weight: 100 900;
   font-style: normal;
   font-display: swap;
 }
