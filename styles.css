@@ -62,7 +62,7 @@ a:focus {
 
 @font-face {
   font-family: "maria";
-src: url("./MariaRM.ttf");
+src: url("./fonts/MariaRM.ttf");
   font-style: normal;
   font-weight: 400 700;    /* permite 400 e 700, não um range amplo */
   font-stretch: 75% 125%;        /* mapeia o eixo wdth (IMPORTANTE p/ Safari) */
@@ -100,7 +100,7 @@ src: url("./fonts/RR-Pinhais.ttf");
 
 @font-face {
   font-family: "rune";
-  src: url("./fonts/RR-RAN-5.0VF.ttf") format("truetype");
+  src: url("./fonts/RR-RAN.ttf") format("truetype");
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
