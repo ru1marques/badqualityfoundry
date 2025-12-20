@@ -665,19 +665,66 @@ textarea::selection{
 
 .iframe-center {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh; /* ocupa o ecrã todo */
-background-color: #0000FF;}
+  justify-content: center;   /* centro horizontal */
+  align-items: center;       /* centro vertical */
+  min-height: 100vh;
+  width: 100%;
+  background-color: #0000FF;
+}
 
 .doc-frame {
   width: 100%;
-  max-width: 3000px;
-  min-width: none;
+  max-width: 1200px;   /* ajuste conforme quiser */
   height: 80vh;
   border: none;
   border-radius: 8px;
-  
+  display: block;
+}
+
+
+/* Página específica */
+body.page-manifesto {
+  background-color: #0000FF;
+  color: #FFFFFF;
+  font-family: Arial, Helvetica, sans-serif; /* pode trocar pela sua fonte */
+}
+
+/* Container principal */
+.manifesto-container {
+  max-width: 900px;
+margin: 0 auto; 
+padding-bottom: 15%;
+}
+
+.manifesto-title {
+font-size: 8rem;
+width: 100px;
+line-height: 7rem;
+}
+
+.manifesto-intro {
+font-size: 2rem;
+}
+
+.rotate {
+  display: inline-block;            /* necessário para transformar */
+  animation: spin 12s linear infinite;
+  transform-origin: center center;
+}
+
+.rotate:hover {
+  animation-play-state: paused;
+}
+
+
+/* animação */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 
