@@ -6,7 +6,6 @@
 
 
 // 1) Atualiza hero (sempre vídeo)
-document.title = `Specimen — ${config.name}`;
 const scatter = document.getElementById("scatter");
 if (scatter) {
   scatter.innerHTML = "";
