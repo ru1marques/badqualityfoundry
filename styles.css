@@ -4,7 +4,8 @@
 *, *::before, *::after { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
-a { color: inherit; text-decoration: none; }
+a { color: inherit;
+   text-decoration: none; }
 
 /* todos os links (a) */
 a {
@@ -14,12 +15,12 @@ a {
 }
 
 /* hover / foco */
-a:hover,
-a:focus {
-  color: #0033ff;              /* ainda mais intenso ao passar o rato */
-  text-decoration: underline;  /* opcional: sublinha só no hover */
-  text-decoration: none
+.hover-blue:hover,
+.hover-blue:focus {
+  color: #0033ff;
+  transition: letter-spacing 0.25s ease, color 0.25s ease;
 }
+
 
 
 /* -------------------------------
@@ -132,6 +133,8 @@ font-size: 15vw;
   line-height: .9;
   letter-spacing: -.01em;
 font-size: clamp(40px, 20vw, 350px);
+  font-stretch: 0%; /* <- ajusta para o range real da tua fonte */
+
 }
 
 .helvoni{
@@ -152,6 +155,8 @@ font-size: clamp(40px, 18vw, 250px);
   line-height:1.5;
   letter-spacing: -0.1em;
 font-size: clamp(40px, 18vw, 250px);
+  font-stretch: 0%; /* <- ajusta para o range real da tua fonte */
+
 }
 
 .oakley{
@@ -176,7 +181,7 @@ font-size: clamp(40px, 20vw, 350px);
 /*anima os pesos do erre */
 .erre.specimen-text{
   font-family: "erre";
-  animation: erreWidth 2.4s ease-in-out infinite alternate;
+  animation: erreWidth 4.4s ease-in-out infinite alternate;
   font-stretch: 0%;
 }
 
@@ -185,6 +190,21 @@ font-size: clamp(40px, 20vw, 350px);
   to   { font-stretch: 500%; }
 }
 /*anima os pesos */
+
+
+/*anima os pesos do MARIA */
+
+.maria.specimen-text {
+  animation: mariaWidth 3.4s ease-in-out infinite alternate;
+}
+
+@keyframes mariaWidth {
+  from { font-variation-settings: "wdth" 0; }
+  to   { font-variation-settings: "wdth" 400; }
+}
+/*anima os pesos */
+
+
 
 
 
@@ -213,13 +233,14 @@ body{
 }
 
 /* ===== Hover com aumento suave de kerning para todos os links ===== */
-a {
+/*a {
   transition: letter-spacing 0.25s ease, color 0.25s ease;
 }
+  */
 
-a:hover {
+/*a:hover {
   letter-spacing: 0.28em; /* ajusta a quantidade de espaço entre letras */
-}
+/*
 
 /* Hover no(s) link(s) do menu, com mais especificidade que .softbar .shop */
 .softbar .inner a {
@@ -304,7 +325,10 @@ main{
 /* ================================
    Separadores / Metadados
 ================================ */
-.family{ font-size: var(--small); color:#666; margin: 0; font-weight: 400; }
+.family{ font-size: var(--small);
+  color:#000000;
+  margin: 0;
+   font-weight: 400; }
 .style{  font-size: var(--tiny);  color: var(--muted); margin:0 0 0; }
 
 /* ================================
@@ -330,7 +354,6 @@ main{
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: 10px;
 }
 
 .try-btn {
@@ -352,10 +375,27 @@ main{
   padding: 6px 14px;
   font-size: 13px;
   font-weight: 500;
-  background: #9c9c9c;
-  color: #ffffff;
+  color: #363636;
   cursor: pointer;
 }
+
+.request-btn {
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  color: #9c9c9c;
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+.request-btn:hover {
+  color: #000000;
+  transform: rotate(20deg);
+}
+
+
+
 
 /* specimen central */
 .block-specimen {
