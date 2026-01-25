@@ -120,6 +120,8 @@ src: url("./fonts/rrpinhais.ttf");
   line-height:1.3;
   letter-spacing: -.01em;
 font-size: 15vw;
+  font-stretch: 0% 500%; /* <- ajusta para o range real da tua fonte */
+
 }
 
 .maria{
@@ -169,6 +171,23 @@ font-size: clamp(40px, 20vw, 350px);
   letter-spacing: -.02em;
   font-size: clamp(100px,28vw, 260px);
 }
+
+
+/*anima os pesos do erre */
+.erre.specimen-text{
+  font-family: "erre";
+  animation: erreWidth 2.4s ease-in-out infinite alternate;
+  font-stretch: 0%;
+}
+
+@keyframes erreWidth{
+  from { font-stretch: 0%; }
+  to   { font-stretch: 500%; }
+}
+/*anima os pesos */
+
+
+
 
 
 /* Aplicação global da fonte */
