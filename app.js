@@ -4,6 +4,13 @@
   const config = window.FONT_CONFIGS[chosen];
 
 
+  const downloadBtn = document.getElementById("downloadTrialBtn");
+
+if (downloadBtn && config.download?.trial) {
+  downloadBtn.href = config.download.trial;
+  downloadBtn.target = "_blank";
+  downloadBtn.rel = "noopener";
+}
 
 // 1) Atualiza hero (sempre vídeo)
 const scatter = document.getElementById("scatter");
@@ -101,7 +108,6 @@ if (scatter) {
     if (hasWdth){
       // aplica wdth e ajuda Safari com font-stretch
       preview.style.fontVariationSettings = `"wdth" ${edExp.value}`;
-      preview.style.fontStretch = edExp.value + "%";
       preview.style.letterSpacing = "";
     } else {
       const em = (parseInt(edExp.value,10) - 100) / 1000;
@@ -382,7 +388,7 @@ function initMiniEditor(cfg, n, defaults){
   if (!sizeInput || !leadInput || !expandInput || !preview) return;
 
   // eixo wdth do config (o teu "Expand")
-  const wdthAxis = cfg.axes?.wdth || { min: 75, max: 25, default: 100 };
+  const wdthAxis = cfg.axes?.wdth || { min: 75, max: 125, default: 100 };
 
   expandInput.min = wdthAxis.min;
   expandInput.max = wdthAxis.max;
@@ -401,16 +407,16 @@ function initMiniEditor(cfg, n, defaults){
     const expand = Number(expandInput.value);
 
     preview.style.fontFamily = cfg.cssFamily || cfg.name || "inherit";
-    preview.style.fontSize = size + "px";
-    preview.style.lineHeight = leading;
-    preview.style.fontVariationSettings = `"wdth" ${expand}`;
+preview.style.fontSize = size + "px";
+preview.style.lineHeight = leading;
+preview.style.fontVariationSettings = `"wdth" ${expand}`;
 
     // alinhamento
     preview.style.textAlign = alignCenter.checked ? "center" : "left";
 
     // bg
-    preview.style.background = bgDark.checked ? "#111" : "#100f0fff";
-    preview.style.color = bgDark.checked ? "#000000ff" : "#ffffffff";
+   preview.style.background = bgDark.checked ? "#0f0f0f" : "#f7f7f7";
+preview.style.color = bgDark.checked ? "#ffffff" : "#111111";
   }
 
   // listeners
@@ -425,4 +431,147 @@ function initMiniEditor(cfg, n, defaults){
   render();
 }
 
+// Java para os samples de text nao editáveis
+
+document.addEventListener("DOMContentLoaded", () => {
+  const fontId = window.DEFAULT_FONT || "maria";
+  const cfg = window.FONT_CONFIGS?.[fontId];
+  const host = document.getElementById("specimenReading");
+
+  if (!host || !cfg?.textColumnsSpecimen) return;
+
+  const spec = cfg.textColumnsSpecimen;
+  const family = cfg.cssFamily || "inherit";
+
+  function renderSide(side, extraClass = "") {
+    if (!side?.columns?.length) return "";
+
+    return `
+      <div class="specimen-reading-side ${extraClass}">
+        ${side.columns.map(txt => `
+          <div
+            class="specimen-reading-col"
+            style="
+              font-family: '${family}', Inter, system-ui, sans-serif;
+              font-size: ${side.size || 24}px;
+              line-height: ${side.leading || 1};
+              letter-spacing: -0.02em;
+            "
+          >${txt}</div>
+        `).join("")}
+      </div>
+    `;
+  }
+
+  host.innerHTML = `
+    ${renderSide(spec.left, "specimen-reading-left")}
+    ${renderSide(spec.right, "specimen-reading-right")}
+  `;
+});
+
+
+
+
+//STATEMENT
+document.addEventListener("DOMContentLoaded", () => {
+
+  const fontId = window.DEFAULT_FONT || "maria";
+  const cfg = window.FONT_CONFIGS?.[fontId];
+  const host = document.getElementById("heroStatement");
+
+  if (!host || !cfg?.heroStatement) return;
+
+  const h = cfg.heroStatement;
+
+  host.innerHTML = `
+    <div class="hero-statement"
+      style="font-family:'${cfg.cssFamily}', Inter, system-ui, sans-serif;">
+
+      <div class="hero-statement-word"
+        style="
+          font-size:${h.wordSize || 20}vw;
+          line-height:${h.wordLeading || 0.9};
+          font-variation-settings:'wdth' ${h.expandWord || 100};
+          letter-spacing:-0.03em;
+        ">
+        ${h.word}
+      </div>
+
+      <div class="hero-statement-phrase"
+        style="
+          font-size:${h.phraseSize || 6}vw;
+          line-height:${h.phraseLeading || 1};
+          font-variation-settings:'wdth' ${h.expandPhrase || 100};
+          letter-spacing:-0.02em;
+        ">
+        ${h.phrase}
+      </div>
+
+    </div>
+  `;
+
+});
+
+// BUTÃO DONWLOAD FINAL 
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  const fontId = window.DEFAULT_FONT || "maria";
+  const cfg = window.FONT_CONFIGS?.[fontId];
+
+  const el = document.getElementById("ctaRotating");
+
+  if (!el || !cfg?.finalCTA) return;
+
+  const cta = cfg.finalCTA;
+
+  el.textContent = cta.text;
+  el.style.fontSize = `${cta.size || 14}vw`;
+  el.style.animationDuration = `${cta.rotateSpeed || 20}s`;
+
+  if(cfg.download?.trial){
+    el.href = cfg.download.trial;
+    el.target = "_blank";
+    el.rel = "noopener";
+  }
+
+});
+
+
+// centered button 
+const centerToggle = document.getElementById("edCenterToggle");
+const preview = document.getElementById("edPreview");
+
+if (centerToggle && preview) {
+  centerToggle.addEventListener("click", () => {
+    const active = preview.classList.toggle("is-centered");
+    centerToggle.setAttribute("aria-pressed", active ? "true" : "false");
+  });
+}
+
+// hover 
+// cursor custom text
+document.addEventListener("DOMContentLoaded", () => {
+
+  const cursor = document.querySelector(".cursor-try");
+  if (!cursor) return;
+
+  const targets = document.querySelectorAll("[data-cursor]");
+
+  targets.forEach(el => {
+
+    el.addEventListener("mouseenter", () => {
+      cursor.textContent = el.dataset.cursor;
+      cursor.style.opacity = "1";
+      cursor.classList.add("is-rotating");
+    });
+
+    el.addEventListener("mouseleave", () => {
+      cursor.textContent = "SOOOOOON";
+      cursor.classList.remove("is-rotating");
+    });
+
+  });
+
+});
 

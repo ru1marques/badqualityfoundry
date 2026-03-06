@@ -66,7 +66,7 @@ a {
 src: url("./fonts/mariarm.ttf");
   font-style: normal;
   font-weight: 400 700;    /* permite 400 e 700, não um range amplo */
-  font-stretch: 75% 125%;        /* mapeia o eixo wdth (IMPORTANTE p/ Safari) */
+  font-stretch: 0% 400%;        /* mapeia o eixo wdth (IMPORTANTE p/ Safari) */
   font-style: normal;
   font-display: swap;
 }
@@ -390,10 +390,9 @@ main{
 }
 
 .request-btn:hover {
-  color: #000000;
+  color: #2b00ff;
   transform: rotate(20deg);
 }
-
 
 
 
@@ -453,7 +452,7 @@ a{color:inherit;text-decoration:none}
 
 
 /* Hero */
-.hero{padding-top:28px;padding-bottom:8px}
+.hero{padding-top:0px;padding-bottom:8px}
 .hero-grid{display:grid;grid-template-columns:1fr;gap:24px}
 @media(min-width:900px){.hero-grid{grid-template-columns:3fr 1fr}}
 .scatter{position:relative;height:550px;border:1px solid var(--border);border-radius:var(--radius);padding:16px;overflow:hidden}
@@ -482,7 +481,7 @@ video::-webkit-media-controls { display: none !important; }
 
 /* Controls */
 section.controls{padding-block:28px}
-.panel{border:1px solid var(--border);border-radius:var(--radius);padding:16px;background:#fff}
+.panel{border:0px solid var(--border);border-radius:var(--radius);padding:16px;background:#fff}
 .grid{display:grid;gap:16px}
 @media(min-width:900px){.grid.cols-5{grid-template-columns:2fr 3fr}}
 .field{display:flex;flex-direction:column;gap:6px}
@@ -528,7 +527,8 @@ footer{border-top:1px solid var(--border);margin-top:24px}
 .more{display:grid;gap:12px;grid-template-columns:repeat(2,1fr)}
 @media(min-width:900px){.more{grid-template-columns:repeat(6,1fr)}}
 .more a{border:1px solid var(--border);border-radius:12px;padding:12px;display:block}
-.muted{color:var(--muted)}
+.muted{color:var(--muted);
+margin:0;}
 
 
 
@@ -536,22 +536,155 @@ footer{border-top:1px solid var(--border);margin-top:24px}
 .type-toolbar label{ display:flex; align-items:center; gap:10px; }
 .type-toolbar input[type="range"]{ width:220px; }
 .type-edit{
-  background:#ffffff; border:1px solid #e7e7e7; border-radius:14px;
-  padding:28px 24px; min-height:520px; outline:none; cursor:text;
-  white-space:pre-wrap; word-break:break-word; caret-color:#111;
-  text-transform: uppercase; display:grid;  /* align-items só funciona com flex/grid */
-  align-items: center;       /* centra na vertical */
-  justify-content: center;   /* centra na horizontal */
-  text-align: center;   
+  background:#ffffff;
+  border:0px solid #e7e7e7;
+  border-radius:14px;
+  padding:28px 24px;
+  min-height:520px;
+  outline:none;
+  cursor:text;
+  white-space:pre-wrap;
+  word-break:break-word;
+  caret-color:#111;
+  text-transform: uppercase;
+
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
+  align-items:flex-start;
+  text-align:left;
 }
 .type-edit:focus{ box-shadow:0 0 0 2px rgba(0,0,0,.05) inset; }
 
+.type-edit.is-centered{
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+}
+
+.icon-btn[aria-pressed="true"]{
+  border-color:#111;
+  box-shadow: inset 0 0 0 1px #111;
+}
+
+/* ================================
+  TEXT SAMPLES NÃO EDITÁVEIS
+================================ */
+
+.specimen-reading-section{
+  padding: 32px 16px 56px;
+}
+
+.specimen-reading{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: start;
+}
+
+/* cada lado */
+.specimen-reading-side{
+  display: grid;
+  /*grid-template-columns: 1fr 1fr;*/
+  gap: 15px;
+  align-items: start;
+  min-width: 0;
+}
+
+/* cada coluna */
+.specimen-reading-col{
+  min-width: 0;
+  color: #111;
+
+  white-space: normal;
+  word-break: normal;
+  overflow-wrap: normal;
+
+  hyphens: none;
+  -webkit-hyphens: none;
+  -ms-hyphens: none;
+
+  text-wrap: pretty;
+}
+
+/* mobile */
+@media (max-width: 1100px){
+  .specimen-reading{
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+
+@media (max-width: 700px){
+  .specimen-reading-side{
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+
+
+.hero-statement-section{
+  padding: 30px 16px;
+}
+
+.hero-statement{
+  text-align:center;
+}
+
+.hero-statement-word{
+  line-height:0.8;
+  letter-spacing:-0.03em;
+}
+
+.hero-statement-phrase{
+  margin-top:12px;
+  letter-spacing:-0.02em;
+}
+
+/* ================================
+DOWNLOAD TRIAL FINAL FONT
+================================ */
+
+.cta-rotating-section{
+  width:100%;
+  overflow:hidden;
+  padding:120px 0;
+}
+
+.cta-rotating{
+  display:block;
+  width:100%;
+
+  text-align:center;
+  white-space:nowrap;
+
+  font-family:"Geist", system-ui, sans-serif;
+  font-weight:700;
+  letter-spacing:-0.02em;
+
+  animation:rotateCTA linear infinite;
+
+  cursor:pointer;
+  text-decoration:none;
+  color:#111;
+}
+
+.cta-rotating:hover{
+
+  color:#000dff;
+}
+
+@keyframes rotateCTA{
+  from{ transform:rotate(-5deg); }
+  to{ transform:rotate(5deg); }
+}
 
 /* ================================
   STYLES PÁGINAS SPECIMENS
 ================================ */
 
-/* ---------- Slim sliders (style igual ao screenshot) ---------- */
+/* -----rgb(38, 0, 255)- Slim sliders (style igual ao screenshot) ---------- */
 input[type="range"]{
   -webkit-appearance: none; /* Safari/Chrome */
   appearance: none;
@@ -953,12 +1086,15 @@ font-size: 2rem;
 .editors-2col{
   display:grid;
   grid-template-columns: 1fr 1fr;
-  gap: 16px;
+  gap: 28px;
+  align-items: stretch;
 }
 
 .editor-mini{
-  border-radius: 12px;
-  padding: 12px;
+ border:1px solid #eaeaea;
+  background:#f7f7f7;
+  padding:24px;
+  border-radius:16px;
 }
 
 .editor-mini .type-toolbar{
@@ -969,9 +1105,15 @@ font-size: 2rem;
 }
 
 .editor-mini .type-edit{
-  min-height: 140px;
-  padding: 12px;
-  border-radius: 10px;
+ min-height: 420px;
+  padding: 40px;
+  font-size: clamp(120px, 14vw, 320px);
+  line-height: .9;
+  letter-spacing: -0.02em;
+  align-items: flex-start;
+  justify-content: flex-start;
+  text-align: left;
+   text-wrap: balance;
 }
 
 @media (max-width: 900px){
@@ -980,3 +1122,75 @@ font-size: 2rem;
   }
 }
 
+
+/* ================================
+   Page transition
+================================ */
+
+:root{
+  --transition-blue: rgb(0, 0, 255);
+  --transition-duration: 680ms;
+}
+
+/* estado inicial da página */
+html.is-transitioning body{
+  pointer-events: none;
+}
+
+/* overlay */
+.page-transition{
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: grid;
+  place-items: center;
+  background: #fff;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 420ms ease,
+    visibility 0s linear 420ms;
+}
+
+.page-transition.is-active{
+  opacity: 1;
+  visibility: visible;
+  transition:
+    opacity 420ms ease,
+    visibility 0s linear 0s;
+}
+
+/* glifo */
+.page-transition__glyph{
+  font-family: "Geist", system-ui, sans-serif;
+  font-size: clamp(72px, 14vw, 220px);
+  line-height: 1;
+  color: var(--transition-blue);
+  display: inline-block;
+  transform-origin: 50% 50%;
+}
+
+/* quando a transição ativa, o glifo roda */
+.page-transition.is-active .page-transition__glyph{
+  animation: pageTransitionSpin 900ms linear infinite;
+}
+
+@keyframes pageTransitionSpin{
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ao entrar numa página, faz fade-out da overlay */
+html.is-ready .page-transition{
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* opcional: fade suave do conteúdo */
+body{
+  transition: opacity 240ms ease;
+}
+
+html.is-transitioning body{
+  opacity: 1;
+}
