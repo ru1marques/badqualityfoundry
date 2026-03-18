@@ -92,10 +92,10 @@ textColumnsSpecimen: {
 
 heroStatement: {
   word: "CRUNCHY TYPEFACE",
-  phrase: "NEVER HAVE I EVER EATED A BAD COOKIE",
+  phrase: "NEVER HAVE I EVER EATEN A BAD COOKIE… AND NOW I’M SLIGHTLY WORRIED I’VE JUST JINXED MYSELF.",
 
-  wordSize: 19,
-  phraseSize: 9,
+  wordSize: 15,
+  phraseSize: 6,
 
   wordLeading: 0.85,
   phraseLeading: 0.85,

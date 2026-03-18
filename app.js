@@ -493,6 +493,7 @@ document.addEventListener("DOMContentLoaded", () => {
           line-height:${h.wordLeading || 0.9};
           font-variation-settings:'wdth' ${h.expandWord || 100};
           letter-spacing:-0.03em;
+          text-align:left;
         ">
         ${h.word}
       </div>
@@ -503,6 +504,7 @@ document.addEventListener("DOMContentLoaded", () => {
           line-height:${h.phraseLeading || 1};
           font-variation-settings:'wdth' ${h.expandPhrase || 100};
           letter-spacing:-0.02em;
+          text-align:left;
         ">
         ${h.phrase}
       </div>
