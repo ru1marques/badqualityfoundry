@@ -4,7 +4,7 @@ window.FONT_CONFIGS.maria = {
   name: "Maria",
   cssFamily: "Maria",
   heroWords: ["MMARIA","COOKIES","MARIA"],
-  specimenText: "MY MOM MAKES MARIA COOKIES FOR LIVING",
+  specimenText: "Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789 :;,.!?",
   weights: [
     { label: "Regular", value: 400, style: "normal" },
     { label: "Bold",    value: 700, style: "normal" }

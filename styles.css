@@ -494,7 +494,7 @@ pre{margin:0;white-space:pre-wrap;word-wrap:break-word}
 
 
 /* Gallery */
-.gallery{display:grid;gap:20px}
+.gallery{display:grid;gap:10px}
 @media(min-width:900px){.gallery{grid-template-columns:repeat(3,1fr)}}
 .tile{aspect-ratio:1/1.2;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;display:flex;align-items:end}
 .tile .label{color: white;margin:16px;border-radius:12px;padding:14px}
@@ -622,8 +622,6 @@ margin:0;}
   }
 }
 
-
-
 .hero-statement-section{
   padding: 30px 16px;
   text-align: LEFT;
@@ -636,11 +634,14 @@ margin:0;}
 .hero-statement-word{
   line-height:0.8;
   letter-spacing:-0.03em;
+  padding-bottom: 50px;
 }
 
 .hero-statement-phrase{
   margin-top:12px;
   letter-spacing:-0.02em;
+   
+    padding-bottom: 50px;
 }
 
 /* ================================
@@ -1016,7 +1017,7 @@ font-size: 2rem;
   height:auto;
   display:block;
   object-fit:contain;
-  border-radius:12px;
+  border-radius:0px;
 }
 
 /* mobile: centro maior, lados menos */
@@ -1092,10 +1093,9 @@ font-size: 2rem;
 }
 
 .editor-mini{
- border:1px solid #eaeaea;
-  background:#f7f7f7;
+ border-top:1px solid #eaeaea;
   padding:24px;
-  border-radius:16px;
+  border-radius:0px;
 }
 
 .editor-mini .type-toolbar{
@@ -1117,13 +1117,29 @@ font-size: 2rem;
    text-wrap: balance;
 }
 
+/* Remover background especificamente dos editores (ed1Preview, ed2Preview, edPreview, etc.) */
+[id^="ed"][id$="Preview"] {
+  background: transparent !important;
+}
+
 .detail {
   font-size: var(--tiny); 
   text-transform: uppercase; 
   letter-spacing: .06em;
   line-height: 1; font-weight: 700;
   color:var(--muted);
+  padding-bottom: 20px;
 
+}
+
+.detail-mid {
+  font-size: var(--tiny); 
+  text-transform: uppercase; 
+  letter-spacing: .06em;
+  line-height: 1; font-weight: 700;
+  color:var(--muted);
+  text-align: center;
+    padding-bottom: 20px;
 }
 
 @media (max-width: 900px){

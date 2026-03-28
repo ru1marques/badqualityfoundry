@@ -478,39 +478,68 @@ document.addEventListener("DOMContentLoaded", () => {
   const fontId = window.DEFAULT_FONT || "maria";
   const cfg = window.FONT_CONFIGS?.[fontId];
   const host = document.getElementById("heroStatement");
+  const hostWord = document.getElementById("heroStatementWord");
+  const hostPhrase = document.getElementById("heroStatementPhrase");
 
-  if (!host || !cfg?.heroStatement) return;
-
+  if (!cfg?.heroStatement) return;
   const h = cfg.heroStatement;
 
-  host.innerHTML = `
-    <div class="hero-statement"
-      style="font-family:'${cfg.cssFamily}', Inter, system-ui, sans-serif;">
+  // If the two separate placeholders exist in HTML, populate them individually
+  if (hostWord || hostPhrase) {
+    if (hostWord) {
+      hostWord.textContent = h.word || '';
+      hostWord.style.fontFamily = `${cfg.cssFamily}, Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial`;
+      hostWord.style.fontSize = (h.wordSize || 20) + 'vw';
+      hostWord.style.lineHeight = h.wordLeading || 0.9;
+      if (cfg.axes && cfg.axes.wdth) hostWord.style.fontVariationSettings = `"wdth" ${h.expandWord || cfg.axes.wdth.default || 100}`;
+      hostWord.style.letterSpacing = '-0.03em';
+      hostWord.style.textAlign = 'center';
+    }
 
-      <div class="hero-statement-word"
-        style="
-          font-size:${h.wordSize || 20}vw;
-          line-height:${h.wordLeading || 0.9};
-          font-variation-settings:'wdth' ${h.expandWord || 100};
-          letter-spacing:-0.03em;
-          text-align:left;
-        ">
-        ${h.word}
+    if (hostPhrase) {
+      hostPhrase.textContent = h.phrase || '';
+      hostPhrase.style.fontFamily = `${cfg.cssFamily}, Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial`;
+      hostPhrase.style.fontSize = (h.phraseSize || 6) + 'vw';
+      hostPhrase.style.lineHeight = h.phraseLeading || 1;
+      if (cfg.axes && cfg.axes.wdth) hostPhrase.style.fontVariationSettings = `"wdth" ${h.expandPhrase || cfg.axes.wdth.default || 100}`;
+      hostPhrase.style.letterSpacing = '-0.02em';
+      hostPhrase.style.textAlign = 'center';
+    }
+
+    return;
+  }
+
+  // Fallback: populate single container as before
+  if (host) {
+    host.innerHTML = `
+      <div class="hero-statement"
+        style="font-family:'${cfg.cssFamily}', Inter, system-ui, sans-serif;">
+
+        <div class="hero-statement-word"
+          style="
+            font-size:${h.wordSize || 20}vw;
+            line-height:${h.wordLeading || 0.9};
+            font-variation-settings:'wdth' ${h.expandWord || 100};
+            letter-spacing:-0.03em;
+            text-align:center;
+          ">
+          ${h.word}
+        </div>
+
+        <div class="hero-statement-phrase"
+          style="
+            font-size:${h.phraseSize || 6}vw;
+            line-height:${h.phraseLeading || 1};
+            font-variation-settings:'wdth' ${h.expandPhrase || 100};
+            letter-spacing:-0.02em;
+            text-align:center;
+          ">
+          ${h.phrase}
+        </div>
+
       </div>
-
-      <div class="hero-statement-phrase"
-        style="
-          font-size:${h.phraseSize || 6}vw;
-          line-height:${h.phraseLeading || 1};
-          font-variation-settings:'wdth' ${h.expandPhrase || 100};
-          letter-spacing:-0.02em;
-          text-align:left;
-        ">
-        ${h.phrase}
-      </div>
-
-    </div>
-  `;
+    `;
+  }
 
 });
 
