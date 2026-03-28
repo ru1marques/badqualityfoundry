@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="pt">
+<head>
+  <meta charset="utf-8" />
+
+  <title>HELVONI — ㋛ Bad Quality Type Foundry</title>
+  <meta name="description" content="Bad Quality Type Foundry - Experimental typefaces for speculative designers." />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <div class="softbar">
+    <div class="container inner">
+      <a href="index.html" class="brand">㋛ Bad Quality Type</a>
+       <a href="manifesto.htm" class="shop">Manifesto</a>
+    </div>
+  </div>
+
+  <main style="padding-top:0;">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <div id="scatter" class="scatter" aria-hidden="true"></div>
+        </div>
+        <aside class="panel" style="height:fit-content">
+          <h1 style="margin:0 0 8px 0">Helvoni</h1>
+          <p class="muted" style="font-size:14px">Helvoni is a modern geometric sans designed for clarity and versatility. It blends humanist proportions with crisp terminals for a contemporary yet familiar texture.</p>
+          <hr>
+
+          <p class="muted" style="font-size:14px"><b>Tipology </b>Variable Width</p>
+          <hr>
+          <p class="muted" style="font-size:14px"><b>Author </b><a href="#" target="_blank" rel="noopener noreferrer">Bad Quality</a></p>
+          <hr>
+          <p class="muted" style="font-size:14px"><b>License </b><a href="#" target="_blank" rel="noopener noreferrer">Open Source</a></p>
+          <hr>
+          <p class="muted" style="font-size:14px"><b>Version </b>v1.0</p>
+          <hr>
+
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
+            <a id="downloadTrialBtn" class="btn request-btn" href="#">Download Trial ⤓</a>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ===== INLINE TYPE EDITOR (IDs próprios; não colide com os antigos) ===== -->
+
+    <section class="container" style="padding:18px 16px">
+      <div class="type-toolbar">
+        <label>Size
+          <input id="edSize" type="range" min="24" max="240" step="1" value="128">
+        </label>
+        <label>Leading
+          <input id="edLeading" type="range" min="0.8" max="2" step="0.01" value="1.0">
+        </label>
+        <label id="expandLabel">Expand
+          <input id="edExpand" type="range" min="75" max="125" step="1" value="100">
+        </label>
+
+        <div class="align-group">
+          <span class="align-label">Align</span>
+
+          <div class="align-toggle" role="radiogroup" aria-label="Text alignment">
+            <input class="vh" type="radio" id="edAlignLeft" name="edAlign" value="left" checked>
+            <label for="edAlignLeft" class="icon-btn" title="Align left" aria-label="Align left">
+              <img src="img/align_left.svg" alt="Align left" width="18" height="18">
+            </label>
+
+            <input class="vh" type="radio" id="edAlignCenter" name="edAlign" value="center">
+            <label for="edAlignCenter" class="icon-btn" title="Align center" aria-label="Align center">
+              <img src="img/align_center.svg" alt="Align center" width="18" height="18">
+            </label>
+          </div>
+
+          <div class="valign-toggle" role="radiogroup" aria-label="Vertical alignment"></div>
+
+          <div class="bg-toggle" role="radiogroup" aria-label="Editor background">
+            <input class="vh" type="radio" id="edBgLight" name="edBg" value="light" checked>
+            <label for="edBgLight" class="swatch swatch--light" title="Light"></label>
+
+            <input class="vh" type="radio" id="edBgDark" name="edBg" value="dark">
+            <label for="edBgDark" class="swatch swatch--dark" title="Dark"></label>
+          </div>
+        </div>
+
+      </div>
+      <div id="edPreview" class="type-edit" contenteditable="true" spellcheck="false"></div>
+    </section>
+
+    <!-- Injeta text samples -->
+    <section class="container" style="padding:18px 16px">
+      <div id="editors2col" class="editors-2col"></div>
+    </section>
+
+    <!-- TEXT SAMPLES NÃO EDITÁVEIS -->
+    <section class="container specimen-reading-section">
+      <p class="detail">22PT/33PT | 1.02/ 0.98 | ↔ 0</p>
+      <div id="specimenReading" class="specimen-reading"></div>
+    </section>
+
+    <!-- HIGHLIGHT TEXT STATEMENT -->
+    <section class="container hero-statement-section">
+      <p class="detail-mid">19PT | 0.85 | ↔ 400</p>
+      <div id="heroStatementWord" class="hero-statement-word"></div>
+      <div id="heroStatementPhrase" class="hero-statement-phrase"></div>
+    </section>
+
+    <!-- GALLERY -->
+    <section id="gallery" class="container">
+      <div class="gallery">
+        <div class="tile" style="background-image: url('img/helvoni/fea_1.jpg'); background-size: cover; background-position: center;">
+          <div class="label">
+            <p class="muted" style="margin:0 0 6px 0; font-size:14px">Features</p>
+            <h3 style="margin:0; font-weight:600">Cookie Emogi</h3>
+          </div>
+        </div>
+
+        <div class="tile" style="background-image: url('img/helvoni/fea_2.jpg'); background-size: cover; background-position: center;">
+          <div class="label">
+            <p class="muted" style="margin:0 0 6px 0; font-size:14px">Features</p>
+            <h3 style="margin:0; font-weight:600">Cookie Patterns</h3>
+          </div>
+        </div>
+
+        <div class="tile" style="background-image: url('img/helvoni/fea_3.jpg'); background-size: cover; background-position: center;">
+          <div class="label">
+            <p class="muted" style="margin:0 0 6px 0; font-size:14px">Features</p>
+            <h3 style="margin:0; font-weight:600">Excessively Delicious & Crunchy Outlines</h3>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDER FULL WIDTH  -->
+    <section class="slider-full">
+      <div class="slider" id="specimenSlider">
+        <button class="slider-arrow slider-arrow--prev" type="button" data-slider-prev aria-label="Previous slide">‹</button>
+        <div class="slider-viewport"><div class="slider-track" id="sliderTrack"></div></div>
+        <button class="slider-arrow slider-arrow--next" type="button" data-slider-next aria-label="Next slide">›</button>
+      </div>
+    </section>
+
+    <!-- GLYPHS -->
+    <section class="container character-overview" style="padding:24px 16px 36px 16px">
+      <h2 style="margin:0 0 8px 0">Character Overview</h2>
+      <div id="glyphGrid" class="glyphs"></div>
+    </section>
+
+    <section class="cta-rotating-section"><a id="ctaRotating" class="cta-rotating"></a></section>
+
+  </main>
+
+  <footer>
+    <div class="footer-panel" id="shop">
+      <div class="container pad">
+        <div class="footer-meta">
+          <div>㋛ Bad quality type foundry © 2025 All rights reserved</div>
+          <a href="https://www.instagram.com/badqualitytype/" target="_blank" rel="noopener noreferrer">Instagram</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="fonts/helvoni.config.js"></script>
+  <script>window.DEFAULT_FONT = 'helvoni';</script>
+  <script src="app.js"></script>
+  <script src="page-transition.js"></script>
+
+</body>
+</html>
+</section>
+

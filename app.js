@@ -81,19 +81,34 @@ if (scatter) {
   const edLead  = document.getElementById("edLeading");
   const edExp   = document.getElementById("edExpand");
   const expLbl  = document.getElementById("expandLabel");
+  const edOpt   = document.getElementById("edOptical");
+  const optLbl  = document.getElementById("opticalLabel");
   if (!preview || !edSize || !edLead || !edExp) return;
 
   const AXES = config.axes || {};
   const hasWdth = !!AXES.wdth;       // ✅ só wdth
-  const hasWght = false;             // ❌ sem wght
+  const hasWght = !!AXES.wght;
+  const hasOpsz = !!AXES.opsz;
 
   if (hasWdth){
     edExp.min = AXES.wdth.min; edExp.max = AXES.wdth.max; edExp.step = 1;
     edExp.value = AXES.wdth.default || edExp.value;
-    if (expLbl) expLbl.firstChild.nodeValue = AXES.wdth.label || "Expand";
+    if (expLbl) expLbl.firstChild.nodeValue = AXES.wdth.label || "Weight";
   } else {
     edExp.min = 50; edExp.max = 200; edExp.step = 1; // fallback tracking
     if (expLbl) expLbl.firstChild.nodeValue = "Tracking";
+  }
+
+  // configure optical slider if present (allow default 0)
+  if (edOpt) {
+    const opszMin = AXES.opsz?.min ?? 0;
+    const opszMax = AXES.opsz?.max ?? (edOpt.max ? Number(edOpt.max) : 500);
+    edOpt.min = Math.min(0, opszMin);
+    edOpt.max = opszMax;
+    edOpt.step = 1;
+    const def = 0;
+    edOpt.value = Math.min(Math.max(def, Number(edOpt.min)), Number(edOpt.max));
+    if (optLbl) optLbl.firstChild.nodeValue = AXES.opsz?.label || "Optical";
   }
 
   function apply(){
@@ -105,19 +120,22 @@ if (scatter) {
     const weightSel = document.getElementById("weight");
     if (weightSel) preview.style.fontWeight = weightSel.value;
 
-    if (hasWdth){
-      // aplica wdth e ajuda Safari com font-stretch
-      preview.style.fontVariationSettings = `"wdth" ${edExp.value}`;
-      preview.style.letterSpacing = "";
-    } else {
+    // aplica wdth/opsz se presentes
+    const parts = [];
+    if (hasWdth) parts.push(`"wdth" ${edExp.value}`);
+    // allow optical control from the UI even if config lacks opsz
+    if (edOpt) parts.push(`"opsz" ${edOpt.value}`);
+    preview.style.fontVariationSettings = parts.length ? parts.join(', ') : "normal";
+    if (!hasWdth) {
       const em = (parseInt(edExp.value,10) - 100) / 1000;
       preview.style.letterSpacing = em + "em";
-      preview.style.fontVariationSettings = "normal";
       preview.style.fontStretch = "";
+    } else {
+      preview.style.letterSpacing = "";
     }
   }
 
-  [edSize, edLead, edExp].forEach(el => el.addEventListener("input", apply));
+  [edSize, edLead, edExp, edOpt].forEach(el => el && el.addEventListener("input", apply));
   const weightSel = document.getElementById("weight");
   if (weightSel) weightSel.addEventListener("input", apply);
   apply();
@@ -336,11 +354,17 @@ function buildMiniEditorHTML(n){
         <label>Size
           <input id="ed${n}Size" type="range" min="24" max="640" step="1" value="128">
         </label>
+        <label>Weight
+          <input id="ed${n}Weight" type="range">
+        </label>
+        <label>Optical
+          <input id="ed${n}Optical" type="range">
+        </label>
         <label>Leading
           <input id="ed${n}Leading" type="range" min="0.8" max="2" step="0.01" value="1.0">
         </label>
         <label>
-          Expand
+          Weight
           <input id="ed${n}Expand" type="range">
         </label>
 
@@ -379,6 +403,8 @@ function initMiniEditor(cfg, n, defaults){
   const sizeInput    = document.getElementById(`ed${n}Size`);
   const leadInput    = document.getElementById(`ed${n}Leading`);
   const expandInput  = document.getElementById(`ed${n}Expand`);
+  const weightInput  = document.getElementById(`ed${n}Weight`);
+  const opticalInput = document.getElementById(`ed${n}Optical`);
   const preview      = document.getElementById(`ed${n}Preview`);
   const alignLeft    = document.getElementById(`ed${n}AlignLeft`);
   const alignCenter  = document.getElementById(`ed${n}AlignCenter`);
@@ -389,15 +415,33 @@ function initMiniEditor(cfg, n, defaults){
 
   // eixo wdth do config (o teu "Expand")
   const wdthAxis = cfg.axes?.wdth || { min: 75, max: 125, default: 100 };
+  const wghtAxis = cfg.axes?.wght || null;
+  const opszAxis = cfg.axes?.opsz || null;
 
   expandInput.min = wdthAxis.min;
   expandInput.max = wdthAxis.max;
   expandInput.step = 1;
 
+  if (wghtAxis && weightInput) {
+    weightInput.min = wghtAxis.min;
+    weightInput.max = wghtAxis.max;
+    weightInput.step = 1;
+  }
+
+  if (opszAxis && opticalInput) {
+    const opszMin = opszAxis.min ?? 0;
+    const opszMax = opszAxis.max ?? 500;
+    opticalInput.min = Math.min(0, opszMin);
+    opticalInput.max = opszMax;
+    opticalInput.step = 1;
+  }
+
   // aplicar defaults
   sizeInput.value   = defaults.size ?? cfg.editor?.size ?? 128;
   leadInput.value   = defaults.leading ?? cfg.editor?.leading ?? 1.0;
   expandInput.value = defaults.expand ?? cfg.editor?.expand ?? wdthAxis.default;
+  if (weightInput) weightInput.value = defaults.weight ?? cfg.editor?.weight ?? (wghtAxis?.default ?? 400);
+  if (opticalInput) opticalInput.value = defaults.optical ?? cfg.editor?.optical ?? (opszAxis?.default ?? 0);
   preview.textContent = defaults.text ?? cfg.editor?.text ?? cfg.specimenText ?? "";
 
   // função que atualiza CSS
@@ -405,11 +449,19 @@ function initMiniEditor(cfg, n, defaults){
     const size = Number(sizeInput.value);
     const leading = Number(leadInput.value);
     const expand = Number(expandInput.value);
+    const weight = weightInput ? Number(weightInput.value) : (wghtAxis?.default ?? 400);
+    const optical = opticalInput ? Number(opticalInput.value) : (opszAxis?.default ?? null);
 
     preview.style.fontFamily = cfg.cssFamily || cfg.name || "inherit";
 preview.style.fontSize = size + "px";
 preview.style.lineHeight = leading;
-preview.style.fontVariationSettings = `"wdth" ${expand}`;
+    // build variation settings dynamically depending on available axes
+    const parts = [];
+    if (wdthAxis) parts.push(`"wdth" ${expand}`);
+    if (wghtAxis) parts.push(`"wght" ${weight}`);
+    if (opszAxis && optical !== null) parts.push(`"opsz" ${optical}`);
+    preview.style.fontVariationSettings = parts.length ? parts.join(', ') : "normal";
+    if (wghtAxis) preview.style.fontWeight = weight;
 
     // alinhamento
     preview.style.textAlign = alignCenter.checked ? "center" : "left";
@@ -423,6 +475,8 @@ preview.style.color = bgDark.checked ? "#ffffff" : "#111111";
   sizeInput.addEventListener("input", render);
   leadInput.addEventListener("input", render);
   expandInput.addEventListener("input", render);
+  if (weightInput) weightInput.addEventListener("input", render);
+  if (opticalInput) opticalInput.addEventListener("input", render);
   alignLeft.addEventListener("change", render);
   alignCenter.addEventListener("change", render);
   bgLight.addEventListener("change", render);

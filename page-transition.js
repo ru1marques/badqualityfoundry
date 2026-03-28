@@ -1,36 +1,15 @@
 (() => {
-  const TRANSITION_DELAY = 420; // tempo até navegar, em ms
-
-  function isInternalLink(link) {
-    if (!link) return false;
-    const href = link.getAttribute("href");
-    if (!href) return false;
-
-    // ignorar anchors, mailto, tel, js, downloads e novas abas
-    if (
-      href.startsWith("#") ||
-      href.startsWith("mailto:") ||
-      href.startsWith("tel:") ||
-      href.startsWith("javascript:")
-    ) return false;
-
-    if (link.hasAttribute("download")) return false;
-    if (link.target === "_blank") return false;
-
-    const url = new URL(link.href, window.location.href);
-
-    // só links do mesmo domínio
-    if (url.origin !== window.location.origin) return false;
-
-    // se for só âncora na mesma página, ignora
-    const samePage =
-      url.pathname === window.location.pathname &&
-      url.search === window.location.search;
-
-    if (samePage && url.hash) return false;
-
-    return true;
+  // Temporarily disable the page-transition module (preloader + transitions)
+  // Set to `false` below if you want to enable again.
+  const PAGE_TRANSITION_DISABLED = true;
+  if (PAGE_TRANSITION_DISABLED) {
+    console.log('page-transition disabled');
+    return;
   }
+  const TRANSITION_DELAY = 420; // tempo até navegar, em ms (reduzido para ficar mais rápido)
+  const PRELOADER_MIN_DISPLAY = 800; // ms mínimo que o preloader deve permanecer visível
+
+  // (click-to-transition removed) helper functions for link testing removed
 
   function ensureOverlay() {
     let overlay = document.querySelector(".page-transition");
@@ -46,37 +25,37 @@
     return overlay;
   }
 
-  function activateTransition(url) {
-    const overlay = ensureOverlay();
+  // --- Preloader: show overlay while page is loading (until window.load)
+  // Se a página ainda não terminou de carregar, exibimos a overlay imediatamente
+  // para funcionar como preloader. Será escondida no evento `load`.
+  if (document.readyState !== 'complete') {
+    const _overlay = ensureOverlay();
+    document.documentElement.classList.add('is-transitioning');
+    _overlay.classList.add('is-active');
+    const shownAt = Date.now();
 
-    document.documentElement.classList.add("is-transitioning");
-    overlay.classList.add("is-active");
+    window.addEventListener('load', () => {
+      const elapsed = Date.now() - shownAt;
+      const hide = () => {
+        document.documentElement.classList.remove('is-transitioning');
+        document.documentElement.classList.add('is-ready');
+        _overlay.classList.remove('is-active');
+      };
 
-    window.setTimeout(() => {
-      window.location.href = url;
-    }, TRANSITION_DELAY);
+      if (elapsed >= PRELOADER_MIN_DISPLAY) {
+        hide();
+      } else {
+        setTimeout(hide, PRELOADER_MIN_DISPLAY - elapsed);
+      }
+    }, { once: true });
   }
+
+  // activateTransition removed — transitions between pages disabled; overlay used only as preloader
 
   document.addEventListener("DOMContentLoaded", () => {
     ensureOverlay();
 
-    document.addEventListener("click", (event) => {
-      const link = event.target.closest("a");
-      if (!isInternalLink(link)) return;
-
-      // respeitar cmd/ctrl click, shift click, etc.
-      if (
-        event.defaultPrevented ||
-        event.metaKey ||
-        event.ctrlKey ||
-        event.shiftKey ||
-        event.altKey ||
-        event.button !== 0
-      ) return;
-
-      event.preventDefault();
-      activateTransition(link.href);
-    });
+    // NOTE: click-to-transition behavior removed — page-transition used only as preloader now.
 
     // quando a página carrega/volta do bfcache, limpar estado
     window.addEventListener("pageshow", () => {
