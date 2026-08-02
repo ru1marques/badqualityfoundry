@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="pt">
+<head>
+  <meta charset="utf-8" />
+  <title>OFICINA — ㋛ Bad Quality Type Foundry</title>
+  <meta name="description" content="Oficina — geometric stencil variable typeface by Rui Marques." />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="page-oficina">
+
+  <div class="softbar">
+    <div class="container inner">
+      <a href="index.html" class="brand">㋛ Bad Quality Type</a>
+      <a href="manifesto.htm" class="shop">Manifesto</a>
+    </div>
+  </div>
+
+  <main style="padding-top:0;">
+    <section class="hero">
+      <div class="container">
+        <div id="scatter" class="scatter" aria-hidden="true"></div>
+      </div>
+    </section>
+
+    <section id="composition-tool" class="container" style="padding:18px 16px">
+      <div class="type-toolbar">
+        <label>Size
+          <input id="edSize" type="range" min="24" max="240" step="1" value="128">
+        </label>
+        <label>Leading
+          <input id="edLeading" type="range" min="0.8" max="2" step="0.01" value="1">
+        </label>
+        <label id="weightLabel">Weight
+          <input id="edWeight" type="range" min="0" max="500" step="1" value="100">
+        </label>
+        <label id="opticalLabel">Optical Size
+          <input id="edOptical" type="range" min="0" max="500" step="1" value="0">
+        </label>
+
+        <button id="weightAnimationToggle" class="weight-animation-toggle" type="button" aria-pressed="true" title="Pause Weight animation">
+          <span class="weight-animation-toggle__icon" aria-hidden="true">Ⅱ</span>
+          <span data-animation-label>Pause</span>
+        </button>
+
+        <div class="align-group">
+          <span class="align-label">Align</span>
+          <div class="align-toggle" role="radiogroup" aria-label="Text alignment">
+            <input class="vh" type="radio" id="edAlignLeft" name="edAlign" value="left">
+            <label for="edAlignLeft" class="icon-btn" title="Align left" aria-label="Align left">
+              <img src="img/align_left.svg" alt="Align left" width="18" height="18">
+            </label>
+            <input class="vh" type="radio" id="edAlignCenter" name="edAlign" value="center" checked>
+            <label for="edAlignCenter" class="icon-btn" title="Align center" aria-label="Align center">
+              <img src="img/align_center.svg" alt="Align center" width="18" height="18">
+            </label>
+            <button id="edCenterToggle" class="icon-btn" type="button" aria-label="Center text" aria-pressed="true" title="Center text">
+              <img src="img/align_middle.svg" alt="Center text" width="18" height="18">
+            </button>
+          </div>
+          <div class="bg-toggle" role="radiogroup" aria-label="Editor background">
+            <input class="vh" type="radio" id="edBgLight" name="edBg" value="light" checked>
+            <label for="edBgLight" class="swatch swatch--light" title="Light"></label>
+            <input class="vh" type="radio" id="edBgDark" name="edBg" value="dark">
+            <label for="edBgDark" class="swatch swatch--dark" title="Dark"></label>
+          </div>
+        </div>
+      </div>
+      <div id="edPreview" class="type-edit is-centered is-weight-animated" contenteditable="true" spellcheck="false"></div>
+    </section>
+
+    <section class="container" style="padding:18px 16px">
+      <div id="editors2col" class="editors-2col"></div>
+    </section>
+
+    <section class="container specimen-reading-section">
+      <p class="detail">22PT/33PT | 1.02/0.98</p>
+      <div id="specimenReading" class="specimen-reading"></div>
+    </section>
+
+    <section class="container hero-statement-section">
+      <p class="detail-mid">19PT | 0.85</p>
+      <div id="heroStatementWord" class="hero-statement-word"></div>
+      <p class="detail-mid">19PT | 0.85</p>
+      <div id="heroStatementPhrase" class="hero-statement-phrase"></div>
+    </section>
+
+    <section class="slider-full">
+      <div class="slider" id="specimenSlider">
+        <button class="slider-arrow slider-arrow--prev" type="button" data-slider-prev aria-label="Previous slide">‹</button>
+        <div class="slider-viewport"><div class="slider-track" id="sliderTrack"></div></div>
+        <button class="slider-arrow slider-arrow--next" type="button" data-slider-next aria-label="Next slide">›</button>
+      </div>
+    </section>
+
+    <section class="container character-overview" style="padding:24px 16px 36px">
+      <h2 style="margin:0 0 8px">Character Overview</h2>
+      <div id="glyphGrid" class="glyphs"></div>
+    </section>
+
+    <section class="cta-rotating-section">
+      <span id="ctaRotating" class="cta-rotating"></span>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-panel" id="shop">
+      <div class="container pad">
+        <div class="footer-meta">
+          <div>㋛ Bad quality type foundry © 2026 All rights reserved</div>
+          <a href="https://www.instagram.com/badqualitytype/" target="_blank" rel="noopener noreferrer">Instagram</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Edita os href abaixo quando o download estiver disponível. -->
+  <nav class="maria-sticky-actions" aria-label="Oficina quick actions">
+    <a class="maria-sticky-action" href="#composition-tool">Composition Tool</a>
+    <span class="maria-sticky-action" aria-disabled="true">Donwload soon</span>
+  </nav>
+
+  <script src="fonts/oficina.config.js"></script>
+  <script>window.DEFAULT_FONT = 'oficina';</script>
+  <script src="main.js"></script>
+  <script src="app.js"></script>
+  <script src="page-transition.js"></script>
+</body>
+</html>

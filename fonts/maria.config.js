@@ -19,7 +19,7 @@ window.FONT_CONFIGS.maria = {
 
   // 👉 só largura variável:
   axes: { wdth: { min: 0, max: 400, default: 100, label: "Expand" } },
-  editor: { size: 328, leading: 0.5, expand: 100, text: "MY MOM MAKES MARIA COOKIES FOR A LIVING @2025" },
+  editor: { size: 328, leading: 0.5, expand: 100, align: "center", text: "MY MOM MAKES MARIA COOKIES FOR A LIVING @2025" },
 
   heroVideo: {
     // A) ficheiro local/remoto
@@ -29,6 +29,73 @@ window.FONT_CONFIGS.maria = {
     // B) —alternativa— YouTube/Vimeo embed:
     // embed: "https://www.youtube.com/embed/VIDEOID?autoplay=1&mute=1&loop=1&playlist=VIDEOID"
   },
+
+  // Grelha inicial do hero: pode ter vídeo, imagem, texto ou embed
+  heroGrid: [
+    {
+      type: "text",
+      title: "Maria RM",
+      body: [
+        "Maria RM is a typeface born from the shapes engraved in the five letters of the iconic Maria biscuit, later expanded into a full alphabet with an experimental, exploratory approach while keeping its traditional traits.",
+        "What started as a personal passion has now evolved into a tool ready to be used in your creative recipes! :))"
+      ],
+      span: 1,
+      rows: 1
+    },
+    {
+      type: "text",
+      details: [
+        { label: "Tipology", value: "Variable Width" },
+        { label: "Author", value: "Rui Marques" },
+        { label: "License", value: "Creative Commons Attribution 4.0" },
+        { label: "Version", value: "v1.0 (Beta) 2025" },
+        { label: "Download Trial", value: "↓", link: "https://ruimarques.gumroad.com/l/maria" }
+      ],
+        span: 1,
+      rows: 1
+    },
+    {
+      type: "image",
+      src: "img/maria/3.jpg",
+      alt: "Maria specimen detail",
+      fit: "cover",
+    },
+    {
+      type: "image",
+      src: "img/maria/4.jpg",
+      alt: "Maria specimen detail",
+      fit: "cover"
+    },
+    {
+      type: "video",
+      src: "img/maria/maria_video_header.mp4",
+      poster: "videos/maria-hero-poster.jpg",
+      controls: true,
+      span: 2,
+      rows:2
+    },
+    {
+      type: "text",
+      title: "Variable-width rhythm",
+      body: "The serif widths shift with almost choreographed movement, giving the family a highly expressive and personal voice."
+    },
+  
+   {
+      type: "video",
+      src: "img/maria/yvideo.mp4",
+      poster: "videos/maria-hero-poster.jpg",
+      controls: true,
+      span: 1,
+      rows:1
+    },
+    {
+      type: "image",
+      src: "img/maria/11.jpg",
+      alt: "Maria specimen detail",
+      fit: "cover"
+    },
+    
+  ],
 
 download: {
     trial: "https://ruimarques.gumroad.com/l/maria"
@@ -111,7 +178,6 @@ finalCTA: {
 }
 
 };
-
 
 
 

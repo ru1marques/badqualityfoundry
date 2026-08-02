@@ -4,6 +4,121 @@
     el.textContent = el.textContent.toUpperCase();
   });
 
+  function renderFamilyBlock(config, target){
+    if(!config || !target) return null;
+
+    var block = document.createElement('div');
+    block.className = 'block hover-see';
+
+    if (config.className) {
+      block.className += ' ' + config.className;
+    }
+
+    var hr = document.createElement('hr');
+    block.appendChild(hr);
+
+    var header = document.createElement('header');
+    header.className = 'block-header';
+
+    var left = document.createElement('div');
+    var family = document.createElement('p');
+    family.className = 'family';
+    family.textContent = config.family || '';
+    left.appendChild(family);
+    header.appendChild(left);
+
+    if (config.action) {
+      var actionWrap = document.createElement('div');
+      if (config.action.href) {
+        var action = document.createElement('a');
+        action.href = config.action.href;
+        action.className = config.action.className || 'request-btn';
+        action.textContent = config.action.label || '';
+        if (config.action.target) action.target = config.action.target;
+        if (config.action.rel) action.rel = config.action.rel;
+        actionWrap.appendChild(action);
+      } else {
+        var button = document.createElement('button');
+        button.className = config.action.className || 'progress-btn';
+        button.textContent = config.action.label || '';
+        actionWrap.appendChild(button);
+      }
+      header.appendChild(actionWrap);
+    }
+
+    block.appendChild(header);
+
+    var specimen = document.createElement('div');
+    specimen.className = 'block-specimen';
+
+    var link = document.createElement('a');
+    link.href = config.linkHref || '#';
+    link.className = config.linkClass || '';
+
+    var title = document.createElement('h2');
+    title.className = config.titleClass || 'maria specimen-text';
+    title.textContent = config.title || '';
+    title.setAttribute('data-original', config.dataOriginal || (config.title || ''));
+    if (config.dataCursor) title.setAttribute('data-cursor', config.dataCursor);
+
+    link.appendChild(title);
+    specimen.appendChild(link);
+    block.appendChild(specimen);
+
+    var style = document.createElement('p');
+    style.className = 'style';
+    style.textContent = config.styleText || '';
+    block.appendChild(style);
+
+    if (target) {
+      target.appendChild(block);
+    }
+
+    return block;
+  }
+
+  window.renderFamilyBlock = renderFamilyBlock;
+
+  var mariaTarget = document.getElementById('maria-block-target');
+  if (mariaTarget) {
+    renderFamilyBlock({
+      family: 'Maria',
+      title: 'MARIA',
+      titleClass: 'maria specimen-text',
+      dataOriginal: 'MARIA',
+      dataCursor: 'TRY :/ ',
+      linkHref: 'maria.htm',
+      styleText: 'Variable — 2 Styles',
+      action: {
+        href: 'https://ruimarques.gumroad.com/l/maria',
+        label: 'Download trial',
+        className: 'request-btn',
+        target: '_blank',
+        rel: 'noopener noreferrer'
+      }
+    }, mariaTarget);
+  }
+
+  var mariaTopTarget = document.getElementById('maria-top-block');
+  if (mariaTopTarget) {
+    renderFamilyBlock({
+      family: 'Maria',
+      title: 'MARIA',
+      titleClass: 'maria specimen-text',
+      dataOriginal: 'MARIA',
+      dataCursor: 'TRY :/ ',
+      linkHref: 'maria.htm',
+      styleText: 'Variable — 2 Styles',
+      action: {
+        href: 'https://ruimarques.gumroad.com/l/maria',
+        label: 'Download trial',
+        className: 'request-btn',
+        target: '_blank',
+        rel: 'noopener noreferrer'
+      }
+    }, mariaTopTarget);
+  }
+
   // Smooth scroll fallback para browsers que ignoram scroll-behavior
   var supportsSmooth = 'scrollBehavior' in document.documentElement.style;
   if(!supportsSmooth){

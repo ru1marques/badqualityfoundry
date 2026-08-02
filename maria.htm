@@ -23,7 +23,7 @@
   <title>Maria RM Typeface</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
-<body>
+<body class="page-maria">
   
   
 
@@ -34,35 +34,16 @@
     </div>
   </div>
 
+
+
+
   <main style="padding-top:0;">
     <!-- HERO -->
     <section class="hero">
-      <div class="container hero-grid">
-        <div>
-          <div id="scatter" class="scatter" aria-hidden="true"></div>
-        </div>
-        <aside class="panel" style="height:fit-content">
-          <h1 style="margin:0 0 8px 0">Maria RM</h1>
-          <p class="muted" style="font-size:14px">Maria RM is a typeface born from the shapes engraved in the five letters of the iconic Maria biscuit, later expanded into a full alphabet with an experimental and exploratory approach while maintaining its traditional traits.The standout feature of Maria is its variable-width serifs, which create an almost choreographed movement between characters, making it highly expressive and full of personality.</p> <hr>
-
-           <p class="muted" style="font-size:14px"><b>Tipology </b>Variable Width</p>
-        <hr>
-       <p class="muted" style="font-size:14px"><b>Author </b><a href="https://erre.kickvoidloop.com/ruimarques/" target="_blank" rel="noopener noreferrer">Rui Marques</a>
-        <hr>
-           <p class="muted" style="font-size:14px"><b>License </b><a href="https://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="noopener noreferrer">Creative Commons Attribution 4.0</a>
-        <hr>
-             <p class="muted" style="font-size:14px"><b>Version </b>v1.0 (Beta) 2025</p>
-        <hr>
-
-
-
-
-
-</p>
-          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
-            <a id="downloadTrialBtn" class="btn request-btn" href="#">Download Trial ⤓</a>
-          </div>
-        </aside>
+      
+      <div class="container">
+        <div id="maria-top-block"></div>
+        <div id="scatter" class="scatter" aria-hidden="true"></div>
       </div>
     </section>
 
@@ -117,10 +98,12 @@
     </section>
 -->
 
+
+
     
   <!-- ===== INLINE TYPE EDITOR (IDs próprios; não colide com os antigos) ===== -->
 
-  <section class="container" style="padding:18px 16px">
+  <section id="composition-tool" class="container" style="padding:18px 16px">
     <div class="type-toolbar">
       <label>Size
         <input id="edSize" type="range" min="24" max="240" step="1" value="128">
@@ -128,10 +111,7 @@
       <label>Leading
         <input id="edLeading" type="range" min="0.8" max="2" step="0.01" value="1.0">
       </label>
-      <label id="opticalLabel">Optical
-        <input id="edOptical" type="range" min="8" max="500" step="1" value="14">
-      </label>
-      <label id="expandLabel">Weight
+      <label id="expandLabel">Expand
         <input id="edExpand" type="range" min="75" max="125" step="1" value="100">
       </label>
 
@@ -139,19 +119,19 @@
   <span class="align-label">Align</span>
 
   <div class="align-toggle" role="radiogroup" aria-label="Text alignment">
-    <input class="vh" type="radio" id="edAlignLeft" name="edAlign" value="left" checked>
+    <input class="vh" type="radio" id="edAlignLeft" name="edAlign" value="left">
     <label for="edAlignLeft" class="icon-btn" title="Align left" aria-label="Align left">
       <img src="img/align_left.svg" alt="Align left" width="18" height="18">
     </label>
 
-    <input class="vh" type="radio" id="edAlignCenter" name="edAlign" value="center">
+    <input class="vh" type="radio" id="edAlignCenter" name="edAlign" value="center" checked>
     <label for="edAlignCenter" class="icon-btn" title="Align center" aria-label="Align center">
       <img src="img/align_center.svg" alt="Align center" width="18" height="18">
     </label>
 
 
 
- <button id="edCenterToggle" class="icon-btn" type="button" aria-label="Center text" title="Center text">
+ <button id="edCenterToggle" class="icon-btn" type="button" aria-label="Center text" aria-pressed="true" title="Center text">
   <img src="img/align_middle.svg" alt="Center text" width="18" height="18">
 </button>
 
@@ -185,7 +165,7 @@
 </div>
 
 </div>
-    <div id="edPreview" class="type-edit" contenteditable="true" spellcheck="false">
+    <div id="edPreview" class="type-edit is-centered" contenteditable="true" spellcheck="false">
     </div>
 </div>
   </section>
@@ -214,6 +194,7 @@
   
 
 </section>
+
 
 
 <!-- GALLERY -->
@@ -311,9 +292,16 @@ Instagram
   </div>
   </footer>
 
+  <!-- Edita os href abaixo para personalizar os destinos dos botões. -->
+  <nav class="maria-sticky-actions" aria-label="Maria quick actions">
+    <a class="maria-sticky-action" href="#composition-tool">Composition Tool</a>
+    <a class="maria-sticky-action" href="https://ruimarques.gumroad.com/l/maria" target="_blank" rel="noopener noreferrer">Download</a>
+  </nav>
+
 
  <script src="fonts/maria.config.js"></script>
 <script>window.DEFAULT_FONT = 'maria';</script>
+<script src="main.js"></script>
 <script src="app.js"></script>
 <script src="page-transition.js"></script>
 

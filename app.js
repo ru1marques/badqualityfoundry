@@ -12,40 +12,236 @@ if (downloadBtn && config.download?.trial) {
   downloadBtn.rel = "noopener";
 }
 
-// 1) Atualiza hero (sempre vídeo)
+// 1) Atualiza hero com uma grelha configurável
 const scatter = document.getElementById("scatter");
 if (scatter) {
   scatter.innerHTML = "";
-  scatter.classList.add("has-video");
+  scatter.classList.remove("has-video", "is-grid");
 
-  const hv = config.heroVideo || {};
+  const heroItems = Array.isArray(config.heroGrid) && config.heroGrid.length
+    ? config.heroGrid
+    : null;
 
-  if (hv.embed) {
-    // YouTube/Vimeo (embed)
-    const iframe = document.createElement("iframe");
-    iframe.className = "hero-embed";
-    iframe.src = hv.embed;
-    iframe.allow = "autoplay; encrypted-media; picture-in-picture";
-    iframe.allowFullscreen = true;
-    scatter.appendChild(iframe);
+  if (heroItems) {
+    scatter.classList.add("is-grid");
+    const shell = document.createElement("div");
+    shell.className = "hero-grid-shell";
+
+    heroItems.forEach((item, index) => {
+      const card = document.createElement("div");
+      card.className = "hero-grid-item";
+      card.dataset.type = String(item.type || "video").toLowerCase();
+
+      // Se é um bloco de detalhes sem span/rows, herda do item anterior
+      let colSpan = Number(item.span || item.cols || item.colSpan || item.width || item.columns || 1);
+      let rowSpan = Number(item.rows || item.rowSpan || item.height || 1);
+      
+      if (item.type === "text" && item.details && !item.span && index > 0) {
+        const prevItem = heroItems[index - 1];
+        if (prevItem.type === "text") {
+          colSpan = Number(prevItem.span || prevItem.cols || prevItem.colSpan || 1);
+          rowSpan = Number(prevItem.rows || prevItem.rowSpan || 1);
+        }
+      }
+      
+      if (colSpan > 1) card.dataset.span = String(colSpan);
+      if (rowSpan > 1) card.dataset.rowSpan = String(rowSpan);
+      if (colSpan > 1 || rowSpan > 1) {
+        card.style.gridColumn = `span ${colSpan}`;
+        card.style.gridRow = `span ${rowSpan}`;
+      }
+      if (item.className) card.classList.add(item.className);
+
+      if (item.type === "text") {
+        card.classList.add("hero-grid-item--text");
+        const content = document.createElement("div");
+        content.className = "hero-grid-item__content";
+
+        const eyebrowText = typeof item.eyebrow === "string" ? item.eyebrow.trim() : "";
+        const titleText = typeof item.title === "string" ? item.title.trim() : "";
+
+        if (eyebrowText) {
+          const eyebrow = document.createElement("p");
+          eyebrow.className = "hero-grid-item__eyebrow";
+          eyebrow.textContent = eyebrowText;
+          content.appendChild(eyebrow);
+        }
+
+        if (titleText) {
+          const title = document.createElement("h3");
+          title.className = "hero-grid-item__title";
+          title.textContent = titleText;
+          content.appendChild(title);
+        }
+
+        // Suporta body como string ou array de strings
+        if (item.body) {
+          const bodyParagraphs = Array.isArray(item.body) ? item.body : [item.body];
+          bodyParagraphs.forEach(para => {
+            const bodyText = typeof para === "string" ? para.trim() : "";
+            if (bodyText) {
+              const body = document.createElement("p");
+              body.className = "hero-grid-item__body";
+              body.textContent = bodyText;
+              content.appendChild(body);
+            }
+          });
+        }
+
+        if (Array.isArray(item.details) && item.details.length) {
+          const detailsDiv = document.createElement("div");
+          detailsDiv.className = "hero-grid-item__details";
+          item.details.forEach(detail => {
+            const detailLine = document.createElement("p");
+            detailLine.className = "hero-grid-item__detail-line detail-mid";
+            const label = document.createElement("strong");
+            label.textContent = detail.label;
+            detailLine.appendChild(label);
+            
+            if (detail.link) {
+              const link = document.createElement("a");
+              link.href = detail.link;
+              link.target = "_blank";
+              link.rel = "noopener";
+              link.textContent = " " + detail.value;
+              detailLine.appendChild(link);
+            } else {
+              detailLine.appendChild(document.createTextNode(" " + detail.value));
+            }
+            detailsDiv.appendChild(detailLine);
+          });
+          content.appendChild(detailsDiv);
+        }
+
+        if (content.childNodes.length) {
+          card.appendChild(content);
+        }
+      } else if (item.type === "slider") {
+        card.classList.add("hero-grid-item--slider");
+        if (item.aspectRatio) card.style.aspectRatio = item.aspectRatio;
+
+        const slides = Array.isArray(item.images || item.slides)
+          ? (item.images || item.slides).filter(Boolean)
+          : [];
+
+        if (slides.length) {
+          const slider = document.createElement("div");
+          slider.className = "hero-mini-slider";
+
+          const img = document.createElement("img");
+          img.className = "hero-grid-image hero-mini-slider__image";
+          img.draggable = false;
+          if (item.fit) img.style.objectFit = item.fit;
+          slider.appendChild(img);
+
+          let currentSlide = Number(item.startIndex || 0);
+          currentSlide = Math.max(0, Math.min(currentSlide, slides.length - 1));
+
+          const renderSlide = () => {
+            img.src = slides[currentSlide];
+            img.alt = `${item.alt || "Specimen variation"} ${currentSlide + 1}`;
+          };
+
+          if (slides.length > 1) {
+            const previous = document.createElement("button");
+            previous.className = "hero-mini-slider__arrow hero-mini-slider__arrow--prev";
+            previous.type = "button";
+            previous.setAttribute("aria-label", "Previous poster variation");
+            previous.textContent = "‹";
+
+            const next = document.createElement("button");
+            next.className = "hero-mini-slider__arrow hero-mini-slider__arrow--next";
+            next.type = "button";
+            next.setAttribute("aria-label", "Next poster variation");
+            next.textContent = "›";
+
+            previous.addEventListener("click", () => {
+              currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+              renderSlide();
+            });
+            next.addEventListener("click", () => {
+              currentSlide = (currentSlide + 1) % slides.length;
+              renderSlide();
+            });
+
+            slider.append(previous, next);
+          }
+
+          renderSlide();
+          card.appendChild(slider);
+        }
+      } else if (item.type === "image") {
+        const img = document.createElement("img");
+        img.className = "hero-grid-image";
+        img.src = item.src || item.url || "";
+        img.alt = item.alt || "";
+        if (item.fit) img.style.objectFit = item.fit;
+        card.appendChild(img);
+      } else if (item.type === "html") {
+        const content = document.createElement("div");
+        content.className = "hero-grid-item__content";
+        content.innerHTML = item.html || "";
+        card.appendChild(content);
+      } else if (item.type === "embed") {
+        const iframe = document.createElement("iframe");
+        iframe.className = "hero-embed";
+        iframe.src = item.embed || item.src || "";
+        iframe.allow = item.allow || "autoplay; encrypted-media; picture-in-picture";
+        iframe.allowFullscreen = true;
+        card.appendChild(iframe);
+      } else {
+        const hv = item;
+        if (hv.embed) {
+          const iframe = document.createElement("iframe");
+          iframe.className = "hero-embed";
+          iframe.src = hv.embed;
+          iframe.allow = "autoplay; encrypted-media; picture-in-picture";
+          iframe.allowFullscreen = true;
+          card.appendChild(iframe);
+        } else {
+          const vid = document.createElement("video");
+          vid.className = "hero-video";
+          if (hv.src) vid.src = hv.src;
+          if (hv.poster) vid.poster = hv.poster;
+          vid.autoplay = true;
+          vid.muted = true;
+          vid.loop = true;
+          vid.playsInline = true;
+          vid.controls = hv.controls !== false;
+          card.appendChild(vid);
+          vid.play?.().catch(()=>{/* alguns browsers bloqueiam autoplay; ignorar */});
+        }
+      }
+
+      shell.appendChild(card);
+    });
+
+    scatter.appendChild(shell);
   } else {
-    // HTML5 <video>
-    const vid = document.createElement("video");
-    vid.className = "hero-video";
-    if (hv.src)    vid.src    = hv.src;
-    if (hv.poster) vid.poster = hv.poster;
+    scatter.classList.add("has-video");
 
-    // autoplay “amigo” de mobile
-    vid.autoplay = true;
-    vid.muted = true;
-    vid.loop = true;
-    vid.playsInline = true;
+    const hv = config.heroVideo || {};
 
-    // controlos conforme config (default: true)
-    vid.controls = hv.controls !== false;
-
-    scatter.appendChild(vid);
-    vid.play?.().catch(()=>{/* alguns browsers bloqueiam autoplay; ignorar */});
+    if (hv.embed) {
+      const iframe = document.createElement("iframe");
+      iframe.className = "hero-embed";
+      iframe.src = hv.embed;
+      iframe.allow = "autoplay; encrypted-media; picture-in-picture";
+      iframe.allowFullscreen = true;
+      scatter.appendChild(iframe);
+    } else {
+      const vid = document.createElement("video");
+      vid.className = "hero-video";
+      if (hv.src) vid.src = hv.src;
+      if (hv.poster) vid.poster = hv.poster;
+      vid.autoplay = true;
+      vid.muted = true;
+      vid.loop = true;
+      vid.playsInline = true;
+      vid.controls = hv.controls !== false;
+      scatter.appendChild(vid);
+      vid.play?.().catch(()=>{/* alguns browsers bloqueiam autoplay; ignorar */});
+    }
   }
 }
 
@@ -81,34 +277,35 @@ if (scatter) {
   const edLead  = document.getElementById("edLeading");
   const edExp   = document.getElementById("edExpand");
   const expLbl  = document.getElementById("expandLabel");
+  const edWght  = document.getElementById("edWeight");
+  const wghtLbl = document.getElementById("weightLabel");
   const edOpt   = document.getElementById("edOptical");
   const optLbl  = document.getElementById("opticalLabel");
-  if (!preview || !edSize || !edLead || !edExp) return;
+  if (!preview || !edSize || !edLead) return;
 
   const AXES = config.axes || {};
   const hasWdth = !!AXES.wdth;       // ✅ só wdth
   const hasWght = !!AXES.wght;
   const hasOpsz = !!AXES.opsz;
 
-  if (hasWdth){
+  if (hasWdth && edExp){
     edExp.min = AXES.wdth.min; edExp.max = AXES.wdth.max; edExp.step = 1;
-    edExp.value = AXES.wdth.default || edExp.value;
+    edExp.value = config.editor?.expand ?? AXES.wdth.default ?? edExp.value;
     if (expLbl) expLbl.firstChild.nodeValue = AXES.wdth.label || "Weight";
-  } else {
-    edExp.min = 50; edExp.max = 200; edExp.step = 1; // fallback tracking
-    if (expLbl) expLbl.firstChild.nodeValue = "Tracking";
   }
 
-  // configure optical slider if present (allow default 0)
-  if (edOpt) {
-    const opszMin = AXES.opsz?.min ?? 0;
-    const opszMax = AXES.opsz?.max ?? (edOpt.max ? Number(edOpt.max) : 500);
-    edOpt.min = Math.min(0, opszMin);
-    edOpt.max = opszMax;
+  if (hasWght && edWght) {
+    edWght.min = AXES.wght.min; edWght.max = AXES.wght.max; edWght.step = 1;
+    edWght.value = config.editor?.weight ?? AXES.wght.default ?? edWght.value;
+    if (wghtLbl) wghtLbl.firstChild.nodeValue = AXES.wght.label || "Weight";
+  }
+
+  if (hasOpsz && edOpt) {
+    edOpt.min = AXES.opsz.min;
+    edOpt.max = AXES.opsz.max;
     edOpt.step = 1;
-    const def = 0;
-    edOpt.value = Math.min(Math.max(def, Number(edOpt.min)), Number(edOpt.max));
-    if (optLbl) optLbl.firstChild.nodeValue = AXES.opsz?.label || "Optical";
+    edOpt.value = config.editor?.optical ?? AXES.opsz.default ?? edOpt.value;
+    if (optLbl) optLbl.firstChild.nodeValue = AXES.opsz.label || "Optical";
   }
 
   function apply(){
@@ -122,20 +319,15 @@ if (scatter) {
 
     // aplica wdth/opsz se presentes
     const parts = [];
-    if (hasWdth) parts.push(`"wdth" ${edExp.value}`);
-    // allow optical control from the UI even if config lacks opsz
-    if (edOpt) parts.push(`"opsz" ${edOpt.value}`);
+    if (hasWdth && edExp) parts.push(`"wdth" ${edExp.value}`);
+    if (hasWght && edWght) parts.push(`"wght" ${edWght.value}`);
+    if (hasOpsz && edOpt) parts.push(`"opsz" ${edOpt.value}`);
     preview.style.fontVariationSettings = parts.length ? parts.join(', ') : "normal";
-    if (!hasWdth) {
-      const em = (parseInt(edExp.value,10) - 100) / 1000;
-      preview.style.letterSpacing = em + "em";
-      preview.style.fontStretch = "";
-    } else {
-      preview.style.letterSpacing = "";
-    }
+    if (hasWght && edWght) preview.style.fontWeight = edWght.value;
+    if (hasWdth) preview.style.letterSpacing = "";
   }
 
-  [edSize, edLead, edExp, edOpt].forEach(el => el && el.addEventListener("input", apply));
+  [edSize, edLead, edExp, edWght, edOpt].forEach(el => el && el.addEventListener("input", apply));
   const weightSel = document.getElementById("weight");
   if (weightSel) weightSel.addEventListener("input", apply);
   apply();
@@ -339,7 +531,7 @@ document.addEventListener("DOMContentLoaded", () => {
       ];
 
   // construir HTML dos 2 editores
-  host.innerHTML = colDefaults.map((d, i) => buildMiniEditorHTML(i + 1)).join("");
+  host.innerHTML = colDefaults.map((d, i) => buildMiniEditorHTML(i + 1, cfg)).join("");
 
   // iniciar cada editor
   colDefaults.forEach((d, i) => initMiniEditor(cfg, i + 1, d));
@@ -347,26 +539,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 // ---------- HTML do editor mini (com IDs únicos) ----------
-function buildMiniEditorHTML(n){
+function buildMiniEditorHTML(n, cfg){
+  const weightControl = cfg.axes?.wght ? `
+        <label>${cfg.axes.wght.label || "Weight"}
+          <input id="ed${n}Weight" type="range">
+        </label>` : "";
+  const opticalControl = cfg.axes?.opsz ? `
+        <label>${cfg.axes.opsz.label || "Optical"}
+          <input id="ed${n}Optical" type="range">
+        </label>` : "";
+  const expandControl = cfg.axes?.wdth ? `
+        <label>${cfg.axes.wdth.label || "Expand"}
+          <input id="ed${n}Expand" type="range">
+        </label>` : "";
+
   return `
     <div class="editor-mini panel" data-editor="${n}">
       <div class="type-toolbar">
         <label>Size
           <input id="ed${n}Size" type="range" min="24" max="640" step="1" value="128">
-        </label>
-        <label>Weight
-          <input id="ed${n}Weight" type="range">
-        </label>
-        <label>Optical
-          <input id="ed${n}Optical" type="range">
-        </label>
+        </label>${weightControl}${opticalControl}
         <label>Leading
           <input id="ed${n}Leading" type="range" min="0.8" max="2" step="0.01" value="1.0">
-        </label>
-        <label>
-          Weight
-          <input id="ed${n}Expand" type="range">
-        </label>
+        </label>${expandControl}
 
         <div class="align-group">
           <span class="align-label">Align</span>
@@ -411,16 +606,18 @@ function initMiniEditor(cfg, n, defaults){
   const bgLight      = document.getElementById(`ed${n}BgLight`);
   const bgDark       = document.getElementById(`ed${n}BgDark`);
 
-  if (!sizeInput || !leadInput || !expandInput || !preview) return;
+  if (!sizeInput || !leadInput || !preview) return;
 
   // eixo wdth do config (o teu "Expand")
-  const wdthAxis = cfg.axes?.wdth || { min: 75, max: 125, default: 100 };
+  const wdthAxis = cfg.axes?.wdth || null;
   const wghtAxis = cfg.axes?.wght || null;
   const opszAxis = cfg.axes?.opsz || null;
 
-  expandInput.min = wdthAxis.min;
-  expandInput.max = wdthAxis.max;
-  expandInput.step = 1;
+  if (wdthAxis && expandInput) {
+    expandInput.min = wdthAxis.min;
+    expandInput.max = wdthAxis.max;
+    expandInput.step = 1;
+  }
 
   if (wghtAxis && weightInput) {
     weightInput.min = wghtAxis.min;
@@ -439,7 +636,7 @@ function initMiniEditor(cfg, n, defaults){
   // aplicar defaults
   sizeInput.value   = defaults.size ?? cfg.editor?.size ?? 128;
   leadInput.value   = defaults.leading ?? cfg.editor?.leading ?? 1.0;
-  expandInput.value = defaults.expand ?? cfg.editor?.expand ?? wdthAxis.default;
+  if (expandInput) expandInput.value = defaults.expand ?? cfg.editor?.expand ?? wdthAxis?.default ?? 100;
   if (weightInput) weightInput.value = defaults.weight ?? cfg.editor?.weight ?? (wghtAxis?.default ?? 400);
   if (opticalInput) opticalInput.value = defaults.optical ?? cfg.editor?.optical ?? (opszAxis?.default ?? 0);
   preview.textContent = defaults.text ?? cfg.editor?.text ?? cfg.specimenText ?? "";
@@ -448,7 +645,7 @@ function initMiniEditor(cfg, n, defaults){
   function render(){
     const size = Number(sizeInput.value);
     const leading = Number(leadInput.value);
-    const expand = Number(expandInput.value);
+    const expand = expandInput ? Number(expandInput.value) : null;
     const weight = weightInput ? Number(weightInput.value) : (wghtAxis?.default ?? 400);
     const optical = opticalInput ? Number(opticalInput.value) : (opszAxis?.default ?? null);
 
@@ -457,7 +654,7 @@ preview.style.fontSize = size + "px";
 preview.style.lineHeight = leading;
     // build variation settings dynamically depending on available axes
     const parts = [];
-    if (wdthAxis) parts.push(`"wdth" ${expand}`);
+    if (wdthAxis && expand !== null) parts.push(`"wdth" ${expand}`);
     if (wghtAxis) parts.push(`"wght" ${weight}`);
     if (opszAxis && optical !== null) parts.push(`"opsz" ${optical}`);
     preview.style.fontVariationSettings = parts.length ? parts.join(', ') : "normal";
@@ -474,7 +671,7 @@ preview.style.color = bgDark.checked ? "#ffffff" : "#111111";
   // listeners
   sizeInput.addEventListener("input", render);
   leadInput.addEventListener("input", render);
-  expandInput.addEventListener("input", render);
+  if (expandInput) expandInput.addEventListener("input", render);
   if (weightInput) weightInput.addEventListener("input", render);
   if (opticalInput) opticalInput.addEventListener("input", render);
   alignLeft.addEventListener("change", render);
@@ -634,6 +831,52 @@ if (centerToggle && preview) {
   });
 }
 
+// Oficina: controlo Play/Pause da animação de Weight no primeiro tester
+const oficinaAnimatedPreview = document.querySelector(".page-oficina #edPreview");
+const oficinaCompositionTool = oficinaAnimatedPreview?.closest("#composition-tool");
+const oficinaAnimationToggle = document.getElementById("weightAnimationToggle");
+const oficinaOpticalInput = document.getElementById("edOptical");
+
+if (oficinaAnimatedPreview && oficinaCompositionTool && oficinaAnimationToggle) {
+  const animationIcon = oficinaAnimationToggle.querySelector(".weight-animation-toggle__icon");
+  const animationLabel = oficinaAnimationToggle.querySelector("[data-animation-label]");
+
+  const setWeightAnimation = active => {
+    oficinaAnimatedPreview.style.setProperty("--oficina-animated-opsz", oficinaOpticalInput?.value || 0);
+    oficinaAnimatedPreview.classList.toggle("is-weight-animated", active);
+    oficinaAnimationToggle.setAttribute("aria-pressed", active ? "true" : "false");
+    oficinaAnimationToggle.title = active ? "Pause Weight animation" : "Play Weight animation";
+    if (animationIcon) animationIcon.textContent = active ? "Ⅱ" : "▶";
+    if (animationLabel) animationLabel.textContent = active ? "Pause" : "Play";
+  };
+
+  oficinaAnimationToggle.addEventListener("click", () => {
+    setWeightAnimation(oficinaAnimationToggle.getAttribute("aria-pressed") !== "true");
+  });
+
+  oficinaOpticalInput?.addEventListener("input", () => {
+    oficinaAnimatedPreview.style.setProperty("--oficina-animated-opsz", oficinaOpticalInput.value);
+  });
+
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    setWeightAnimation(false);
+  }
+}
+
+// Valores visíveis nos sliders dos type testers
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll('.type-toolbar label > input[type="range"]').forEach(input => {
+    const output = document.createElement("output");
+    output.className = "tester-slider-value";
+    output.htmlFor = input.id;
+
+    const updateValue = () => { output.value = input.value; };
+    input.insertAdjacentElement("afterend", output);
+    input.addEventListener("input", updateValue);
+    updateValue();
+  });
+});
+
 // hover 
 // cursor custom text
 document.addEventListener("DOMContentLoaded", () => {
@@ -659,4 +902,3 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
 });
-
