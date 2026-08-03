@@ -197,7 +197,7 @@ font-size: clamp(40px, 20vw, 350px);
 
 @keyframes oficinaAxes{
   from { font-variation-settings:"wght" 0, "opsz" 0; }
-  to   { font-variation-settings:"wght" 500, "opsz" 500; }
+  to   { font-variation-settings:"wght" 500, "opsz" 0; }
 }
 /*anima os pesos */
 
