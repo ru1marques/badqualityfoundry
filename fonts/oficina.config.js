@@ -42,7 +42,10 @@ window.FONT_CONFIGS.oficina = {
     {
       type: "text",
       title: "Oficina",
-      body: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since 1966, when designers at Letraset and James Mosley, the librarian at St Bride Printing Library in London, took a 1914 Cicero translation and scrambled it to make dummy text for Letraset's Body Type sheets. It has survived not only many decades, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised thanks to these sheets and more recently with desktop publishing software like Aldus PageMaker and Microsoft Word including versions of Lorem Ipsum."
+      body: [
+        "The typeface explores construction as both structure and language. Built through modular forms, interruptions and stencil-like cuts, each character reveals the logic behind its own making. Instead of treating the letter as a fixed shape, the system approaches typography as something assembled, exposed and continuously open to transformation.",
+        "Through its optical size axis, the typeface moves between construction and deconstruction, shifting from legible, resolved forms into increasingly fragmented ones. As this transition happens, typography begins to operate somewhere between language and image — turning the process of building, breaking and reconfiguring form into the central expression of the typeface."
+      ],
     },
     {
       type: "text",
@@ -71,7 +74,15 @@ window.FONT_CONFIGS.oficina = {
       fit: "contain",
       aspectRatio: "3 / 4",
     },
-    { type: "video", src: "img/oficina/7.mp4", controls: true, span: 1, rows: 1}
+    { type: "video", src: "img/oficina/7.mp4", controls: true, span: 1, rows: 1},
+       {
+      type: "text",
+      title: "Context",
+      body: [
+        "Oficina began with a very direct context: my brother’s iron workshop. He works with iron, building objects and structures through cutting, joining, welding and assembling material. When he asked me if I could design a logo for the workshop, I started looking more closely at the visual language surrounding that environment — not only at industrial lettering, but at the way forms are physically constructed",
+        "That process shifted the project from designing a single mark to questioning how a typeface itself could be understood as a structure. Iron offered a useful way of thinking about letterforms: as systems made from parts, joints, interruptions, weight and tension. Instead of drawing letters only by their outlines, I began to see them as things that could be assembled, supported, interrupted and rebuilt."
+      ],
+    },
   ],
 
   slider: [
@@ -84,49 +95,49 @@ window.FONT_CONFIGS.oficina = {
 
   editors2col: [
     {
-      size: 34,
+      size: 44,
       leading: 1.05,
       weight: 160,
       optical: 0,
-      text: "Oficina shapes language from iron, industry and the rhythm of work."
+      text: "Oficina shapes language from iron, industry and visible process."
     },
     {
       size: 290,
       leading: 0.9,
       weight: 500,
       optical: 0,
-      text: "#"
+      text: "372#"
     }
   ],
 
   textColumnsSpecimen: {
     left: {
       size: 22,
-      leading: 1.02,
+      leading: 1.2,
       optical: 0,
       columns: [
-        "Oficina is a geometric stencil typeface inspired by iron forms, industrial structures and functional lettering.",
-        "Its interrupted strokes create a direct rhythm while the variable axes allow the letters to move between text and display."
+        "Oficina is a geometric stencil typeface shaped by the language of iron structures, industrial systems and functional lettering. Its interrupted strokes expose the logic of how each character is built, creating a direct rhythm where structure is not hidden but becomes part of the expression. Through its variable axes, the typeface shifts between resolved and fragmented states, moving between text and display, language and image. Rather than existing as a fixed form, Oficina behaves as a system in transformation — where construction, interruption and deconstruction become part of the typographic language.",
+  
       ]
     },
     right: {
       size: 33,
-      leading: 0.98,
+      leading: 1,
       optical: 0,
       columns: [
-        "Built for posters, identities and editorial systems that need a strong mechanical voice.",
-        "Weight and optical size change the pressure, detail and presence of every character."
+        "As the letterforms fragment, their function shifts from carrying language to generating visual meaning.",
+        "Through transformation, the typeface questions where typography ends and image begins."
       ]
     }
   },
 
   heroStatement: {
     word: "Soldartt",
-    phrase: "Built in the workshop, ready for the street.",
+    phrase: "Structure becomes language",
     wordOptical: 500,
     phraseOptical: 0,
-    wordSize: 15,
-    phraseSize: 6,
+    wordSize: 200,
+    phraseSize: 40,
     wordLeading: 0.85,
     phraseLeading: 0.85,
     expandWord: 500,

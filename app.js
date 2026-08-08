@@ -696,6 +696,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const spec = cfg.textColumnsSpecimen;
   const family = cfg.cssFamily || "inherit";
+  const detail = document.getElementById("specimenReadingDetail");
+
+  if (detail) {
+    const leftOptical = spec.left?.optical ?? cfg.optical ?? cfg.axes?.opsz?.default;
+    const rightOptical = spec.right?.optical ?? cfg.optical ?? cfg.axes?.opsz?.default;
+    const opticalLabel = cfg.axes?.opsz ? ` | OPSZ ${leftOptical}/${rightOptical}` : "";
+    detail.textContent = `${spec.left?.size}PT/${spec.right?.size}PT | ${spec.left?.leading}/${spec.right?.leading}${opticalLabel}`;
+  }
 
   function renderSide(side, extraClass = "") {
     if (!side?.columns?.length) return "";
@@ -744,6 +752,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (!cfg?.heroStatement) return;
   const h = cfg.heroStatement;
+  const wordDetail = document.getElementById("heroStatementWordDetail");
+  const phraseDetail = document.getElementById("heroStatementPhraseDetail");
+  const wordOptical = h.wordOptical ?? h.optical ?? cfg.optical ?? cfg.axes?.opsz?.default;
+  const phraseOptical = h.phraseOptical ?? h.optical ?? cfg.optical ?? cfg.axes?.opsz?.default;
+
+  if (wordDetail) {
+    wordDetail.textContent = `${h.wordSize}PT | ${h.wordLeading}${cfg.axes?.opsz ? ` | OPSZ ${wordOptical}` : ""}`;
+  }
+  if (phraseDetail) {
+    phraseDetail.textContent = `${h.phraseSize}PT | ${h.phraseLeading}${cfg.axes?.opsz ? ` | OPSZ ${phraseOptical}` : ""}`;
+  }
   const variationSettings = (expand, optical) => {
     const settings = [];
     if (cfg.axes?.wdth) settings.push(`"wdth" ${expand ?? cfg.axes.wdth.default}`);
@@ -756,7 +775,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (hostWord) {
       hostWord.textContent = h.word || '';
       hostWord.style.fontFamily = `${cfg.cssFamily}, Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial`;
-      hostWord.style.fontSize = (h.wordSize || 20) + 'vw';
+      hostWord.style.fontSize = (h.wordSize ?? 20) + 'pt';
       hostWord.style.lineHeight = h.wordLeading || 0.9;
       hostWord.style.fontVariationSettings = variationSettings(h.expandWord, h.wordOptical);
       hostWord.style.letterSpacing = '-0.03em';
@@ -766,7 +785,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (hostPhrase) {
       hostPhrase.textContent = h.phrase || '';
       hostPhrase.style.fontFamily = `${cfg.cssFamily}, Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial`;
-      hostPhrase.style.fontSize = (h.phraseSize || 6) + 'vw';
+      hostPhrase.style.fontSize = (h.phraseSize ?? 6) + 'pt';
       hostPhrase.style.lineHeight = h.phraseLeading || 1;
       hostPhrase.style.fontVariationSettings = variationSettings(h.expandPhrase, h.phraseOptical);
       hostPhrase.style.letterSpacing = '-0.02em';
@@ -784,7 +803,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         <div class="hero-statement-word"
           style="
-            font-size:${h.wordSize || 20}vw;
+            font-size:${h.wordSize ?? 20}pt;
             line-height:${h.wordLeading || 0.9};
             font-variation-settings:${variationSettings(h.expandWord, h.wordOptical)};
             letter-spacing:-0.03em;
@@ -795,7 +814,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         <div class="hero-statement-phrase"
           style="
-            font-size:${h.phraseSize || 6}vw;
+            font-size:${h.phraseSize ?? 6}pt;
             line-height:${h.phraseLeading || 1};
             font-variation-settings:${variationSettings(h.expandPhrase, h.phraseOptical)};
             letter-spacing:-0.02em;
