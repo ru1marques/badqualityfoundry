@@ -458,6 +458,19 @@ document.addEventListener("DOMContentLoaded", () => {
   // atualizar lista completa
   slides = Array.from(root.querySelectorAll(".slider-slide"));
 
+  // As imagens verticais cabem por inteiro na altura do viewport.
+  slides.forEach(slide => {
+    const image = slide.querySelector(".slider-img");
+    if (!image) return;
+
+    const setOrientation = () => {
+      slide.classList.toggle("is-portrait", image.naturalHeight > image.naturalWidth);
+    };
+
+    if (image.complete) setOrientation();
+    else image.addEventListener("load", setOrientation, { once: true });
+  });
+
   // começar no slide 1 real (porque 0 é clone)
   let index = 1;
 

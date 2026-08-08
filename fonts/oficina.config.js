@@ -86,11 +86,16 @@ window.FONT_CONFIGS.oficina = {
   ],
 
   slider: [
-    "img/oficina/1.png",
-    "img/oficina/2.png",
-    "img/oficina/3.png",
-    "img/oficina/5.png",
-    "img/oficina/6.png"
+    "img/oficina/Gallery/0.jpg",
+    "img/oficina/Gallery/1.jpg",
+    "img/oficina/Gallery/2.jpg",
+    "img/oficina/Gallery/3.jpg",
+    "img/oficina/Gallery/4.jpg",
+    "img/oficina/Gallery/5.jpg",
+    "img/oficina/Gallery/6.jpg",
+    "img/oficina/Gallery/7.jpg",
+    "img/oficina/Gallery/8.jpg",
+    "img/oficina/Gallery/9.jpg"
   ],
 
   editors2col: [

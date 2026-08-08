@@ -1425,15 +1425,15 @@ font-size: 2rem;
 /* track com gap e padding para “respirar” */
 .slider-track{
   display:flex;
-  gap:40px;
-  padding:40px;
+  gap:10px;
+  padding:24px;
   transition: transform 0.35s ease;
   will-change: transform;
   align-items:center;
 }
 .slider-slide{
   margin: 0;            /* IMPORTANTÍSSIMO para <figure> */
-  flex: 0 0 70%;
+  flex: 0 0 58%;
   display:flex;
   justify-content:center;
   align-items:center;
@@ -1450,10 +1450,26 @@ font-size: 2rem;
   border-radius:0px;
 }
 
+.page-oficina .slider-slide.is-portrait .slider-img{
+  width:auto;
+  max-width:100%;
+  max-height:calc(100vh - 48px);
+}
+
+.page-oficina .slider-slide.is-portrait{
+  flex-basis:min(58%, calc(75vh - 36px));
+}
+
 /* mobile: centro maior, lados menos */
 @media (max-width: 800px){
-  .slider-slide{ flex-basis:85%; }
+  .slider-slide{ flex-basis:78%; }
   .slider-track{ gap:10px; padding:10px; }
+  .page-oficina .slider-slide.is-portrait .slider-img{
+    max-height:calc(100vh - 20px);
+  }
+  .page-oficina .slider-slide.is-portrait{
+    flex-basis:min(78%, calc(75vh - 15px));
+  }
 }
 
 
