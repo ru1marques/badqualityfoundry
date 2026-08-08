@@ -304,7 +304,7 @@ if (scatter) {
     edOpt.min = AXES.opsz.min;
     edOpt.max = AXES.opsz.max;
     edOpt.step = 1;
-    edOpt.value = config.editor?.optical ?? AXES.opsz.default ?? edOpt.value;
+    edOpt.value = config.editor?.optical ?? config.optical ?? AXES.opsz.default ?? edOpt.value;
     if (optLbl) optLbl.firstChild.nodeValue = AXES.opsz.label || "Optical";
   }
 
@@ -370,7 +370,7 @@ if (scatter) {
   grid.innerHTML = "";
 
   // helper para criar um grid de 12 colunas com as células .glyph já estilizadas no teu CSS
-  function renderGrid(chars, family) {
+  function renderGrid(chars, family, optical) {
     const wrap = document.createElement("div");
     wrap.className = "glyphs"; // usa a tua grelha de 12 colunas
     [...chars].forEach(ch => {
@@ -379,6 +379,9 @@ if (scatter) {
       cell.textContent = ch;
       cell.style.fontFamily = `${config.cssFamily}, Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial`;
       cell.style.fontWeight = 500;
+      if (config.axes?.opsz) {
+        cell.style.fontVariationSettings = `"opsz" ${optical ?? config.optical ?? config.axes.opsz.default}`;
+      }
       wrap.appendChild(cell);
     });
     return wrap;
@@ -395,20 +398,20 @@ if (scatter) {
         title.className = "muted";
         grid.appendChild(title);
       }
-      grid.appendChild(renderGrid(group.chars || "", config.cssFamily));
+      grid.appendChild(renderGrid(group.chars || "", config.cssFamily, group.optical));
     });
     return;
   }
 
   // 2) Se tiver um bloco único
   if (typeof config.glyphs_flat === "string" && config.glyphs_flat.length) {
-    grid.appendChild(renderGrid(config.glyphs_flat, config.cssFamily));
+    grid.appendChild(renderGrid(config.glyphs_flat, config.cssFamily, config.glyphsOptical));
     return;
   }
 
   // 3) Fallback (se não definiste nada no config)
   const fallback = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.,:;!?()[]{}+-*/=±%‰@&$#—–_§£€¥ÇçÁáÉéÍíÓóÚúÃãÕõÂâÊêÎîÔôÛûÄäËëÏïÖöÜüÅåØøÑñÆæÞþÐð¿¡";
-  grid.appendChild(renderGrid(fallback, config.cssFamily));
+  grid.appendChild(renderGrid(fallback, config.cssFamily, config.glyphsOptical));
 })();
 
 // Ano do footer
@@ -638,7 +641,7 @@ function initMiniEditor(cfg, n, defaults){
   leadInput.value   = defaults.leading ?? cfg.editor?.leading ?? 1.0;
   if (expandInput) expandInput.value = defaults.expand ?? cfg.editor?.expand ?? wdthAxis?.default ?? 100;
   if (weightInput) weightInput.value = defaults.weight ?? cfg.editor?.weight ?? (wghtAxis?.default ?? 400);
-  if (opticalInput) opticalInput.value = defaults.optical ?? cfg.editor?.optical ?? (opszAxis?.default ?? 0);
+  if (opticalInput) opticalInput.value = defaults.optical ?? cfg.editor?.optical ?? cfg.optical ?? (opszAxis?.default ?? 0);
   preview.textContent = defaults.text ?? cfg.editor?.text ?? cfg.specimenText ?? "";
 
   // função que atualiza CSS
@@ -697,6 +700,12 @@ document.addEventListener("DOMContentLoaded", () => {
   function renderSide(side, extraClass = "") {
     if (!side?.columns?.length) return "";
 
+    const opszAxis = cfg.axes?.opsz || null;
+    const opticalValue = opszAxis ? (side.optical ?? cfg.optical ?? opszAxis.default ?? 0) : null;
+    const opticalStyle = opszAxis && opticalValue !== null
+      ? `font-optical-sizing: none; font-variation-settings: "opsz" ${opticalValue};`
+      : "";
+
     return `
       <div class="specimen-reading-side ${extraClass}">
         ${side.columns.map(txt => `
@@ -706,6 +715,7 @@ document.addEventListener("DOMContentLoaded", () => {
               font-family: '${family}', Inter, system-ui, sans-serif;
               font-size: ${side.size || 24}px;
               line-height: ${side.leading || 1};
+              ${opticalStyle}
               letter-spacing: -0.02em;
             "
           >${txt}</div>
@@ -734,6 +744,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (!cfg?.heroStatement) return;
   const h = cfg.heroStatement;
+  const variationSettings = (expand, optical) => {
+    const settings = [];
+    if (cfg.axes?.wdth) settings.push(`"wdth" ${expand ?? cfg.axes.wdth.default}`);
+    if (cfg.axes?.opsz) settings.push(`"opsz" ${optical ?? h.optical ?? cfg.optical ?? cfg.axes.opsz.default}`);
+    return settings.join(", ");
+  };
 
   // If the two separate placeholders exist in HTML, populate them individually
   if (hostWord || hostPhrase) {
@@ -742,7 +758,7 @@ document.addEventListener("DOMContentLoaded", () => {
       hostWord.style.fontFamily = `${cfg.cssFamily}, Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial`;
       hostWord.style.fontSize = (h.wordSize || 20) + 'vw';
       hostWord.style.lineHeight = h.wordLeading || 0.9;
-      if (cfg.axes && cfg.axes.wdth) hostWord.style.fontVariationSettings = `"wdth" ${h.expandWord || cfg.axes.wdth.default || 100}`;
+      hostWord.style.fontVariationSettings = variationSettings(h.expandWord, h.wordOptical);
       hostWord.style.letterSpacing = '-0.03em';
       hostWord.style.textAlign = 'center';
     }
@@ -752,7 +768,7 @@ document.addEventListener("DOMContentLoaded", () => {
       hostPhrase.style.fontFamily = `${cfg.cssFamily}, Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial`;
       hostPhrase.style.fontSize = (h.phraseSize || 6) + 'vw';
       hostPhrase.style.lineHeight = h.phraseLeading || 1;
-      if (cfg.axes && cfg.axes.wdth) hostPhrase.style.fontVariationSettings = `"wdth" ${h.expandPhrase || cfg.axes.wdth.default || 100}`;
+      hostPhrase.style.fontVariationSettings = variationSettings(h.expandPhrase, h.phraseOptical);
       hostPhrase.style.letterSpacing = '-0.02em';
       hostPhrase.style.textAlign = 'center';
     }
@@ -770,7 +786,7 @@ document.addEventListener("DOMContentLoaded", () => {
           style="
             font-size:${h.wordSize || 20}vw;
             line-height:${h.wordLeading || 0.9};
-            font-variation-settings:'wdth' ${h.expandWord || 100};
+            font-variation-settings:${variationSettings(h.expandWord, h.wordOptical)};
             letter-spacing:-0.03em;
             text-align:center;
           ">
@@ -781,7 +797,7 @@ document.addEventListener("DOMContentLoaded", () => {
           style="
             font-size:${h.phraseSize || 6}vw;
             line-height:${h.phraseLeading || 1};
-            font-variation-settings:'wdth' ${h.expandPhrase || 100};
+            font-variation-settings:${variationSettings(h.expandPhrase, h.phraseOptical)};
             letter-spacing:-0.02em;
             text-align:center;
           ">

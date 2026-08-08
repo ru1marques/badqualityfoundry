@@ -5,6 +5,8 @@ window.FONT_CONFIGS.oficina = {
   id: "oficina",
   name: "Oficina",
   cssFamily: "Oficina",
+  // Valor global de opsz. Cada bloco abaixo pode substituí-lo com `optical`.
+  optical: 0,
   heroWords: ["OFICINA", "IRON", "STENCIL"],
   specimenText: "Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789 :;,.!?",
 
@@ -15,10 +17,10 @@ window.FONT_CONFIGS.oficina = {
   ],
 
   glyphs: [
-    { title: "Basic Latin", chars: "ABCDEFGHIJKLMNOPQRSTUVWXYZ" },
-    { title: "Figures", chars: "0123456789" },
-    { title: "Punctuation", chars: ".,:;!?…—–“”‘’()[]{}@&#%" },
-    { title: "Accents", chars: "ÁÀÂÃÄÅÇÉÈÊËÍÌÎÏÑÓÒÔÕÖØÚÙÛÜÝŸ" }
+    { title: "Basic Latin", optical: 0, chars: "ABCDEFGHIJKLMNOPQRSTUVWXYZ" },
+    { title: "Figures", optical: 0, chars: "0123456789" },
+    { title: "Punctuation", optical: 0, chars: ".,:;!?…—–“”‘’()[]{}@&#%" },
+    { title: "Accents", optical: 0, chars: "ÁÀÂÃÄÅÇÉÈÊËÍÌÎÏÑÓÒÔÕÖØÚÙÛÜÝŸ" }
   ],
 
   // Eixos confirmados diretamente na tabela `fvar` da fonte exportada.
@@ -92,8 +94,8 @@ window.FONT_CONFIGS.oficina = {
       size: 290,
       leading: 0.9,
       weight: 500,
-      optical: 20,
-      text: "20"
+      optical: 0,
+      text: "#"
     }
   ],
 
@@ -101,6 +103,7 @@ window.FONT_CONFIGS.oficina = {
     left: {
       size: 22,
       leading: 1.02,
+      optical: 0,
       columns: [
         "Oficina is a geometric stencil typeface inspired by iron forms, industrial structures and functional lettering.",
         "Its interrupted strokes create a direct rhythm while the variable axes allow the letters to move between text and display."
@@ -109,6 +112,7 @@ window.FONT_CONFIGS.oficina = {
     right: {
       size: 33,
       leading: 0.98,
+      optical: 0,
       columns: [
         "Built for posters, identities and editorial systems that need a strong mechanical voice.",
         "Weight and optical size change the pressure, detail and presence of every character."
@@ -117,8 +121,10 @@ window.FONT_CONFIGS.oficina = {
   },
 
   heroStatement: {
-    word: "Iron forms",
+    word: "Soldartt",
     phrase: "Built in the workshop, ready for the street.",
+    wordOptical: 500,
+    phraseOptical: 0,
     wordSize: 15,
     phraseSize: 6,
     wordLeading: 0.85,
